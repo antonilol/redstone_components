@@ -1,0 +1,4 @@
+{
+	"block.redstone_components.memory_cell":                 "Memory Cell",
+	"block.redstone_components.configurable_redstone_block": "Configurable Redstone Block"
+}

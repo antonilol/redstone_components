@@ -1,0 +1,10 @@
+#!/bin/bash
+
+rm {~/.minecraft/mods,build/libs}/redstone_components*
+
+./gradlew build
+
+rm build/libs/*dev.jar
+
+cp build/libs/redstone_components* ~/.minecraft/mods
+

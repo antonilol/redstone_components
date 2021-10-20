@@ -1,0 +1,12 @@
+bin/
+build/
+run/
+
+.gradle/
+.settings/
+
+.classpath
+.project
+
+compileBeta
+

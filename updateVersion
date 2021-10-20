@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# constants
+file="gradle.properties"
+name="mod_version"
+
+# get
+ver=$(cat "$file" | grep "$name" | sed 's/.*= //')
+
+# ask for a new one
+echo -n "Enter new $name (now $ver): "
+read newVer
+
+# put the new one in the file
+sed -i "s/$name.*/$name = $newVer/" "$file"
+
+sed -i "s/public static final String VERSION.*/public static final String VERSION = \"$newVer\"; \/\/ updated by updateVersion script with sed :)/" src/main/java/com/antonilol/redstone_components/Main.java
+
+git add gradle.properties src/main/java/com/antonilol/redstone_components/Main.java
