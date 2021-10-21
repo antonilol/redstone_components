@@ -27,60 +27,77 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.BlockPos;
 
-public class MemoryCellBlockEntity extends BlockEntity {
+public class ConfigurableRedstoneBlockEntity extends BlockEntity {
+
+	public static final String LOCKED_TAG_NAME = "locked";
 	
-	public static final String MEMORY_TAG_NAME = "memory";
+	public static final String POWER_TAG_NAME = "power";
 	
-	private byte[] memory = new byte[128];
+	private boolean locked = true;
 	
-	public MemoryCellBlockEntity(BlockPos pos, BlockState state) {
-		super(Main.MEMORY_CELL_BLOCK_ENTITY, pos, state);
+	private int power = 15;
+	
+	public ConfigurableRedstoneBlockEntity(BlockPos pos, BlockState state) {
+		super(Main.CONFIGURABLE_REDSTONE_BLOCK_ENTITY, pos, state);
 	}
 	
-	public int read(byte address) {
-		final int b = memory[(address & 0xff) >> 1] & 0xff;
-		if ((address & 1) == 0) {
-			return b >> 4;
+	public int cyclePower() {
+		System.out.println("start: " + power);
+		
+		power++;
+		
+		if (power > 15) {
+			power = 0;
 		}
-		return b & 0xf;
+		
+		markDirty();
+
+		System.out.println("end: " + power);
+		
+		return power;
 	}
 	
+	public int getPower() {
+		return power;
+	}
+
+	public boolean isLocked() {
+		return locked;
+	}
+
 	@Override
 	public void readNbt(NbtCompound tag) {
 		super.readNbt(tag);
 		
-		byte[] m = tag.getByteArray(MEMORY_TAG_NAME);
-		
-		if (m.length == 128) {
-			memory = m;
-		}
+		setPower(tag.getInt(POWER_TAG_NAME));
+		locked = tag.getBoolean(LOCKED_TAG_NAME);
 	}
-	
-	public void write(byte address, int value) {
-		if (value < 0) {
-			value = 0;
-		} else if (value > 15) {
-			value = 15;
-		}
-		
-		final int index = (address & 0xff) >> 1;
-		final byte b = memory[index];
-		if ((address & 1) == 0) {
-			memory[index] = (byte) ((b & 0x0f) | (value << 4));
-		} else {
-			memory[index] = (byte) ((b & 0xf0) |  value      );
-		}
+
+	public void setLocked(boolean locked) {
+		this.locked = locked;
 		
 		markDirty();
 	}
 	
+	public void setPower(int power) {
+		if (power < 0) {
+			this.power = 0;
+		} else if (power > 15) {
+			this.power = 15;
+		} else {
+			this.power = power;
+		}
+		
+		markDirty();
+	}
+
 	@Override
 	public NbtCompound writeNbt(NbtCompound tag) {
 		super.writeNbt(tag);
 		
-		tag.putByteArray(MEMORY_TAG_NAME, memory);
+		tag.putInt(POWER_TAG_NAME, power);
+		tag.putBoolean(LOCKED_TAG_NAME, locked);
 		
 		return tag;
 	}
 }
-

@@ -1,0 +1,47 @@
+{
+	"parent": "minecraft:recipes/root",
+	"rewards": {
+		"recipes": [
+			"redstone_components:configurable_redstone_block"
+		]
+	},
+	"criteria": {
+		"has_copper_ingot": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"items": [
+							"minecraft:copper_ingot"
+						]
+					}
+				]
+			}
+		},
+		"has_redstone_block": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"items": [
+							"minecraft:redstone_block"
+						]
+					}
+				]
+			}
+		},
+		"has_the_recipe": {
+			"trigger": "minecraft:recipe_unlocked",
+			"conditions": {
+				"recipe": "redstone_components:configurable_redstone_block"
+			}
+		}
+	},
+	"requirements": [
+		[
+			"has_copper_ingot",
+			"has_redstone_block",
+			"has_the_recipe"
+		]
+	]
+}

@@ -38,16 +38,6 @@ import net.minecraft.util.registry.Registry;
 
 public class Main implements ModInitializer {
 	
-	public static final String MOD_ID = "redstone_components";
-	
-	public static final String VERSION = "0.1.0"; // updated by updateVersion script with sed :)
-
-	public static final Block MEMORY_CELL_BLOCK = new MemoryCellBlock(
-		FabricBlockSettings.of(Material.DECORATION)
-		.breakInstantly()
-		.sounds(BlockSoundGroup.WOOD)
-	);
-	
 	public static final Block CONFIGURABLE_REDSTONE_BLOCK = new ConfigurableRedstoneBlock(
 		FabricBlockSettings.of(Material.METAL, MapColor.BRIGHT_RED)
 		.requiresTool()
@@ -55,27 +45,48 @@ public class Main implements ModInitializer {
 		.sounds(BlockSoundGroup.METAL)
 	);
 	
+	public static final String CONFIGURABLE_REDSTONE_BLOCK_NAME = "configurable_redstone_block";
+
+	public static final Block MEMORY_CELL_BLOCK = new MemoryCellBlock(
+		FabricBlockSettings.of(Material.DECORATION)
+		.breakInstantly()
+		.sounds(BlockSoundGroup.WOOD)
+	);
+	
+	public static BlockEntityType<MemoryCellBlockEntity> MEMORY_CELL_BLOCK_ENTITY;
+	
+	public static BlockEntityType<MemoryCellBlockEntity> CONFIGURABLE_REDSTONE_BLOCK_ENTITY;
+	
 	public static final String MEMORY_CELL_NAME = "memory_cell";
 	
-	public static final String CONFIGURABLE_REDSTONE_BLOCK_NAME = "configurable_redstone_block";
+	public static final String MOD_ID = "redstone_components";
 	
-	public static final BlockEntityType<MemoryCellBlockEntity> MEMORY_CELL_BLOCK_ENTITY = Registry.register(
-		Registry.BLOCK_ENTITY_TYPE,
-		new Identifier(MOD_ID, MEMORY_CELL_NAME),
-		FabricBlockEntityTypeBuilder.create(MemoryCellBlockEntity::new, MEMORY_CELL_BLOCK).build(null)
-	);
+	public static final String VERSION = "0.1.0"; // updated by updateVersion script with sed :)
 	
 	@Override
 	public void onInitialize() {
+		// memory cell
 		Registry.register(Registry.BLOCK, new Identifier(MOD_ID, MEMORY_CELL_NAME), MEMORY_CELL_BLOCK);
 		Registry.register(
 			Registry.ITEM, new Identifier(MOD_ID, MEMORY_CELL_NAME),
 			new BlockItem(MEMORY_CELL_BLOCK, new FabricItemSettings().group(ItemGroup.REDSTONE))
 		);
+		MEMORY_CELL_BLOCK_ENTITY = Registry.register(
+			Registry.BLOCK_ENTITY_TYPE,
+			new Identifier(MOD_ID, MEMORY_CELL_NAME),
+			FabricBlockEntityTypeBuilder.create(MemoryCellBlockEntity::new, MEMORY_CELL_BLOCK).build()
+		);
+		
+		// configurable redstone block
 		Registry.register(Registry.BLOCK, new Identifier(MOD_ID, CONFIGURABLE_REDSTONE_BLOCK_NAME), CONFIGURABLE_REDSTONE_BLOCK);
 		Registry.register(
 			Registry.ITEM, new Identifier(MOD_ID, CONFIGURABLE_REDSTONE_BLOCK_NAME),
 			new BlockItem(CONFIGURABLE_REDSTONE_BLOCK, new FabricItemSettings().group(ItemGroup.REDSTONE))
+		);
+		CONFIGURABLE_REDSTONE_BLOCK_ENTITY = Registry.register(
+			Registry.BLOCK_ENTITY_TYPE,
+			new Identifier(MOD_ID, CONFIGURABLE_REDSTONE_BLOCK_NAME),
+			FabricBlockEntityTypeBuilder.create(MemoryCellBlockEntity::new, CONFIGURABLE_REDSTONE_BLOCK).build()
 		);
 	}
 }

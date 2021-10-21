@@ -23,8 +23,10 @@
 package com.antonilol.redstone_components;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.RedstoneBlock;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.state.StateManager.Builder;
 import net.minecraft.state.property.BooleanProperty;
@@ -38,7 +40,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
-public class ConfigurableRedstoneBlock extends RedstoneBlock {
+public class ConfigurableRedstoneBlock extends RedstoneBlock implements BlockEntityProvider {
 	
 	public static final BooleanProperty LOCKED = Properties.LOCKED;
 	
@@ -60,17 +62,29 @@ public class ConfigurableRedstoneBlock extends RedstoneBlock {
 	}
 
 	@Override
-	public int getWeakRedstonePower(BlockState state, BlockView world, BlockPos pos, Direction direction) {
-		return state.get(POWER);
+	public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
+		return new ConfigurableRedstoneBlockEntity(pos, state);
 	}
 	
 	@Override
-	public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
-		if (!player.getAbilities().allowModifyWorld || state.get(LOCKED)) {
-			return ActionResult.PASS;
-		} else {
-			world.setBlockState(pos, state.cycle(POWER), Block.NOTIFY_ALL);
-			return ActionResult.success(world.isClient);
+	public int getWeakRedstonePower(BlockState state, BlockView world, BlockPos pos, Direction direction) {
+		BlockEntity be = world.getBlockEntity(pos);
+		if (be instanceof ConfigurableRedstoneBlockEntity) {
+			return ((ConfigurableRedstoneBlockEntity) be).getPower();
 		}
+		return 0;
+	}
+
+	@Override
+	public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+		if (player.getAbilities().allowModifyWorld && !state.get(LOCKED)) {
+			BlockEntity be = world.getBlockEntity(pos);
+			if (be instanceof ConfigurableRedstoneBlockEntity) {
+				int power = ((ConfigurableRedstoneBlockEntity) be).cyclePower();
+				world.setBlockState(pos, state.with(POWER, power), Block.NOTIFY_LISTENERS);
+				return ActionResult.success(world.isClient);
+			}
+		}
+		return ActionResult.PASS;
 	}
 }
