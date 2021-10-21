@@ -68,11 +68,7 @@ public class ConfigurableRedstoneBlock extends RedstoneBlock implements BlockEnt
 	
 	@Override
 	public int getWeakRedstonePower(BlockState state, BlockView world, BlockPos pos, Direction direction) {
-		BlockEntity be = world.getBlockEntity(pos);
-		if (be instanceof ConfigurableRedstoneBlockEntity) {
-			return ((ConfigurableRedstoneBlockEntity) be).getPower();
-		}
-		return 0;
+		return state.get(POWER);
 	}
 
 	@Override
