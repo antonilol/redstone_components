@@ -55,7 +55,8 @@ public class Main implements ModInitializer {
 	
 	public static BlockEntityType<MemoryCellBlockEntity> MEMORY_CELL_BLOCK_ENTITY;
 	
-	public static BlockEntityType<MemoryCellBlockEntity> CONFIGURABLE_REDSTONE_BLOCK_ENTITY;
+	@Deprecated(forRemoval=true)
+	public static BlockEntityType<ConfigurableRedstoneBlockEntity> CONFIGURABLE_REDSTONE_BLOCK_ENTITY;
 	
 	public static final String MEMORY_CELL_NAME = "memory_cell";
 	
@@ -83,10 +84,12 @@ public class Main implements ModInitializer {
 			Registry.ITEM, new Identifier(MOD_ID, CONFIGURABLE_REDSTONE_BLOCK_NAME),
 			new BlockItem(CONFIGURABLE_REDSTONE_BLOCK, new FabricItemSettings().group(ItemGroup.REDSTONE))
 		);
+		/*
 		CONFIGURABLE_REDSTONE_BLOCK_ENTITY = Registry.register(
 			Registry.BLOCK_ENTITY_TYPE,
 			new Identifier(MOD_ID, CONFIGURABLE_REDSTONE_BLOCK_NAME),
-			FabricBlockEntityTypeBuilder.create(MemoryCellBlockEntity::new, CONFIGURABLE_REDSTONE_BLOCK).build()
+			FabricBlockEntityTypeBuilder.create(ConfigurableRedstoneBlockEntity::new, CONFIGURABLE_REDSTONE_BLOCK).build()
 		);
+		*/
 	}
 }

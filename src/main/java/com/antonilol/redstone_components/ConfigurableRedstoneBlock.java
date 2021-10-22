@@ -23,10 +23,8 @@
 package com.antonilol.redstone_components;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.RedstoneBlock;
-import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.state.StateManager.Builder;
 import net.minecraft.state.property.BooleanProperty;
@@ -40,7 +38,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
-public class ConfigurableRedstoneBlock extends RedstoneBlock implements BlockEntityProvider {
+public class ConfigurableRedstoneBlock extends RedstoneBlock { // implements BlockEntityProvider {
 	
 	public static final BooleanProperty LOCKED = Properties.LOCKED;
 	
@@ -61,10 +59,46 @@ public class ConfigurableRedstoneBlock extends RedstoneBlock implements BlockEnt
 		builder.add(LOCKED, POWER);
 	}
 
+	/*
 	@Override
 	public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
+		System.out.println("new ConfigurableRedstoneBlockEntity");
 		return new ConfigurableRedstoneBlockEntity(pos, state);
 	}
+	
+	private boolean onBlockAddedRunning = false;
+
+	@Override
+	public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean notify) {
+		super.onBlockAdded(state, world, pos, oldState, notify);
+		
+		boolean add = onBlockAddedRunning; // workaround TntEntity
+		
+		onBlockAddedRunning = true;
+		
+		int z = new Random().nextInt();
+		
+		System.out.println("added b " + z + " " + state.get(LOCKED) + state.get(POWER));
+		
+		BlockEntity be = world.getBlockEntity(pos);
+		if (be instanceof ConfigurableRedstoneBlockEntity) {
+			ConfigurableRedstoneBlockEntity crbe = (ConfigurableRedstoneBlockEntity) be;
+			System.out.println("crbe data: " + crbe.getPower() + " " + crbe.isLocked());
+			world.setBlockState(
+				pos,
+				state
+				.with(LOCKED, state.get(LOCKED) && crbe.isLocked())
+				.with(POWER, Math.min(state.get(POWER), crbe.getPower()) + (add ? 1 : 0)),
+				Block.NOTIFY_ALL
+			);
+			System.out.println("be = instanceof ConfigurableRedstoneBlockEntity");
+		}
+		
+		onBlockAddedRunning = false;
+		
+		System.out.println("added e " + z + " " + state.get(LOCKED) + state.get(POWER));
+	}
+	*/
 	
 	@Override
 	public int getWeakRedstonePower(BlockState state, BlockView world, BlockPos pos, Direction direction) {
@@ -74,12 +108,18 @@ public class ConfigurableRedstoneBlock extends RedstoneBlock implements BlockEnt
 	@Override
 	public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
 		if (player.getAbilities().allowModifyWorld && !state.get(LOCKED)) {
+			BlockState newState = state.cycle(POWER);
+			world.setBlockState(pos, newState, Block.NOTIFY_ALL);
+			/*
 			BlockEntity be = world.getBlockEntity(pos);
 			if (be instanceof ConfigurableRedstoneBlockEntity) {
-				int power = ((ConfigurableRedstoneBlockEntity) be).cyclePower();
-				world.setBlockState(pos, state.with(POWER, power), Block.NOTIFY_LISTENERS);
-				return ActionResult.success(world.isClient);
+				ConfigurableRedstoneBlockEntity crbe = (ConfigurableRedstoneBlockEntity) be;
+				crbe.setPower(newState.get(POWER));
+				crbe.setLocked(state.get(LOCKED));
+				System.out.println("nbt");
 			}
+			*/
+			return ActionResult.success(world.isClient);
 		}
 		return ActionResult.PASS;
 	}

@@ -13,7 +13,7 @@ If not, create it.
 
 New blocks (contributions are welcome, see TODOs):
 1. Memory Cell
-2. Configurable Redstone Block (TODO blockstates, textures, models, nbt)
+2. Configurable Redstone Block (TODO blockstates, textures, models, ~~nbt~~)
 3. Probable more in the future
 
 [//]: # (Comment: TODO more text here)

@@ -27,6 +27,7 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.BlockPos;
 
+@Deprecated(forRemoval=true)
 public class ConfigurableRedstoneBlockEntity extends BlockEntity {
 
 	public static final String LOCKED_TAG_NAME = "locked";
@@ -37,12 +38,14 @@ public class ConfigurableRedstoneBlockEntity extends BlockEntity {
 	
 	private int power = 15;
 	
+	private boolean initialized = false;
+	
 	public ConfigurableRedstoneBlockEntity(BlockPos pos, BlockState state) {
 		super(Main.CONFIGURABLE_REDSTONE_BLOCK_ENTITY, pos, state);
 	}
 	
 	public int cyclePower() {
-		System.out.println("start: " + power);
+		initialized = true;
 		
 		power++;
 		
@@ -52,8 +55,6 @@ public class ConfigurableRedstoneBlockEntity extends BlockEntity {
 		
 		markDirty();
 
-		System.out.println("end: " + power);
-		
 		return power;
 	}
 	
@@ -69,17 +70,25 @@ public class ConfigurableRedstoneBlockEntity extends BlockEntity {
 	public void readNbt(NbtCompound tag) {
 		super.readNbt(tag);
 		
+		initialized = true;
+		
+		System.out.println("readNbt");
 		setPower(tag.getInt(POWER_TAG_NAME));
 		locked = tag.getBoolean(LOCKED_TAG_NAME);
+		System.out.println("        " + power + locked);
 	}
 
 	public void setLocked(boolean locked) {
+		initialized = true;
+		
 		this.locked = locked;
 		
 		markDirty();
 	}
 	
 	public void setPower(int power) {
+		initialized = true;
+		
 		if (power < 0) {
 			this.power = 0;
 		} else if (power > 15) {
@@ -94,9 +103,13 @@ public class ConfigurableRedstoneBlockEntity extends BlockEntity {
 	@Override
 	public NbtCompound writeNbt(NbtCompound tag) {
 		super.writeNbt(tag);
-		
-		tag.putInt(POWER_TAG_NAME, power);
-		tag.putBoolean(LOCKED_TAG_NAME, locked);
+
+		System.out.println("writeNbt");
+		if (initialized) {
+			tag.putInt(POWER_TAG_NAME, power);
+			tag.putBoolean(LOCKED_TAG_NAME, locked);
+			System.out.println("         " + power + locked);
+		}
 		
 		return tag;
 	}
