@@ -1,0 +1,37 @@
+{
+	"parent": "minecraft:block/cube_column",
+	"textures": {
+		"end": "redstone_components:block/redstone_block_gray",
+		"side_bottom": "redstone_components:block/crb_locked_15",
+		"side_top": "redstone_components:block/crb_locked_00",
+		"particle": "redstone_components:block/redstone_block_gray"
+	},
+	"elements": [
+		{
+			"name": "bottom",
+			"from": [0, 0, 0],
+			"to": [16, 6.5, 16],
+			"faces": {
+				"north": {"uv": [0, 9.5, 16, 16], "texture": "#side_bottom"},
+				"east": {"uv": [0, 9.5, 16, 16], "texture": "#side_bottom"},
+				"south": {"uv": [0, 9.5, 16, 16], "texture": "#side_bottom"},
+				"west": {"uv": [0, 9.5, 16, 16], "texture": "#side_bottom"},
+				"up": {"uv": [0, 0, 16, 16], "texture": "#end"},
+				"down": {"uv": [0, 0, 16, 16], "texture": "#end"}
+			}
+		},
+		{
+			"name": "top",
+			"from": [0, 6.5, 0],
+			"to": [16, 16, 16],
+			"faces": {
+				"north": {"uv": [0, 0, 16, 9.5], "texture": "#side_top"},
+				"east": {"uv": [0, 0, 16, 9.5], "texture": "#side_top"},
+				"south": {"uv": [0, 0, 16, 9.5], "texture": "#side_top"},
+				"west": {"uv": [0, 0, 16, 9.5], "texture": "#side_top"},
+				"up": {"uv": [0, 0, 16, 16], "texture": "#end"},
+				"down": {"uv": [0, 0, 16, 16], "texture": "#end"}
+			}
+		}
+	]
+}
