@@ -1,0 +1,100 @@
+{
+	"variants": {
+		"locked=false,power=0": {
+			"model": "redstone_components:block/crb_unlocked_00"
+		},
+		"locked=false,power=1": {
+			"model": "redstone_components:block/crb_unlocked_01"
+		},
+		"locked=false,power=2": {
+			"model": "redstone_components:block/crb_unlocked_02"
+		},
+		"locked=false,power=3": {
+			"model": "redstone_components:block/crb_unlocked_03"
+		},
+		"locked=false,power=4": {
+			"model": "redstone_components:block/crb_unlocked_04"
+		},
+		"locked=false,power=5": {
+			"model": "redstone_components:block/crb_unlocked_05"
+		},
+		"locked=false,power=6": {
+			"model": "redstone_components:block/crb_unlocked_06"
+		},
+		"locked=false,power=7": {
+			"model": "redstone_components:block/crb_unlocked_07"
+		},
+		"locked=false,power=8": {
+			"model": "redstone_components:block/crb_unlocked_08"
+		},
+		"locked=false,power=9": {
+			"model": "redstone_components:block/crb_unlocked_09"
+		},
+		"locked=false,power=10": {
+			"model": "redstone_components:block/crb_unlocked_10"
+		},
+		"locked=false,power=11": {
+			"model": "redstone_components:block/crb_unlocked_11"
+		},
+		"locked=false,power=12": {
+			"model": "redstone_components:block/crb_unlocked_12"
+		},
+		"locked=false,power=13": {
+			"model": "redstone_components:block/crb_unlocked_13"
+		},
+		"locked=false,power=14": {
+			"model": "redstone_components:block/crb_unlocked_14"
+		},
+		"locked=false,power=15": {
+			"model": "redstone_components:block/crb_unlocked_15"
+		},
+		"locked=true,power=0": {
+			"model": "redstone_components:block/crb_locked_00"
+		},
+		"locked=true,power=1": {
+			"model": "redstone_components:block/crb_locked_01"
+		},
+		"locked=true,power=2": {
+			"model": "redstone_components:block/crb_locked_02"
+		},
+		"locked=true,power=3": {
+			"model": "redstone_components:block/crb_locked_03"
+		},
+		"locked=true,power=4": {
+			"model": "redstone_components:block/crb_locked_04"
+		},
+		"locked=true,power=5": {
+			"model": "redstone_components:block/crb_locked_05"
+		},
+		"locked=true,power=6": {
+			"model": "redstone_components:block/crb_locked_06"
+		},
+		"locked=true,power=7": {
+			"model": "redstone_components:block/crb_locked_07"
+		},
+		"locked=true,power=8": {
+			"model": "redstone_components:block/crb_locked_08"
+		},
+		"locked=true,power=9": {
+			"model": "redstone_components:block/crb_locked_09"
+		},
+		"locked=true,power=10": {
+			"model": "redstone_components:block/crb_locked_10"
+		},
+		"locked=true,power=11": {
+			"model": "redstone_components:block/crb_locked_11"
+		},
+		"locked=true,power=12": {
+			"model": "redstone_components:block/crb_locked_12"
+		},
+		"locked=true,power=13": {
+			"model": "redstone_components:block/crb_locked_13"
+		},
+		"locked=true,power=14": {
+			"model": "redstone_components:block/crb_locked_14"
+		},
+		"locked=true,power=15": {
+			"model": "redstone_components:block/crb_locked_15"
+		}
+	}
+}
