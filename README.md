@@ -11,10 +11,11 @@ Go to [Releases](https://github.com/antonilol/redstone_components/releases) (or 
 The `mods` folder can be found in [.minecraft](https://minecraft.fandom.com/wiki/.minecraft#Locating_.minecraft).
 If not, create it.
 
-New blocks (contributions are welcome, see TODOs):
+New blocks:
 1. Memory Cell
-2. Configurable Redstone Block (TODO blockstates, textures, models, ~~nbt~~)
-3. Probable more in the future
+2. Configurable Redstone Block
+3. Configurable TNT (TODO)
+4. Probable more in the future
 
 [//]: # (Comment: TODO more text here)
 
