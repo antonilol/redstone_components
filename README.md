@@ -1,4 +1,6 @@
-# Redstone Components (beta)
+[![Build](https://github.com/antonilol/redstone_components/actions/workflows/build.yml/badge.svg)](https://github.com/antonilol/redstone_components/actions/workflows/build.yml)
+
+# Redstone Components
 
 ## Install and use
 
@@ -11,11 +13,12 @@ Go to [Releases](https://github.com/antonilol/redstone_components/releases) (or 
 The `mods` folder can be found in [.minecraft](https://minecraft.fandom.com/wiki/.minecraft#Locating_.minecraft).
 If not, create it.
 
-New blocks:
-1. Memory Cell
-2. Configurable Redstone Block
-3. Configurable TNT (TODO)
-4. Probable more in the future
+New blocks added by this mod:
+- Memory Cell
+- Configurable Redstone Block
+- *Configurable TNT (uncomplete)*
+- *Mega TNT (planned)*
+- Probable more in the future...
 
 [//]: # (Comment: TODO more text here)
 

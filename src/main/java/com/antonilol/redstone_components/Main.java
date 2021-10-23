@@ -27,10 +27,14 @@ import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
+import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.minecraft.block.Block;
 import net.minecraft.block.MapColor;
 import net.minecraft.block.Material;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.entity.EntityDimensions;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.SpawnGroup;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.sound.BlockSoundGroup;
@@ -48,6 +52,16 @@ public class Main implements ModInitializer {
 	
 	public static final String CONFIGURABLE_REDSTONE_BLOCK_NAME = "configurable_redstone_block";
 
+	public static final Block CONFIGURABLE_TNT_BLOCK = new ConfigurableTntBlock(
+		FabricBlockSettings.of(Material.TNT)
+		.breakInstantly()
+		.sounds(BlockSoundGroup.GRASS)
+	);
+	
+	public static final String CONFIGURABLE_TNT_BLOCK_NAME = "configurable_tnt";
+	
+	public static EntityType<ConfigurableTntEntity> CONFIGURABLE_TNT_ENTITY;
+	
 	public static final Block MEMORY_CELL_BLOCK = new MemoryCellBlock(
 		FabricBlockSettings.of(Material.DECORATION)
 		.breakInstantly()
@@ -57,9 +71,10 @@ public class Main implements ModInitializer {
 	public static BlockEntityType<MemoryCellBlockEntity> MEMORY_CELL_BLOCK_ENTITY;
 	
 	public static final String MEMORY_CELL_NAME = "memory_cell";
+
 	
 	public static final String MOD_ID = "redstone_components";
-	
+
 	public static final String VERSION = "1.0.0"; // updated by updateVersion script with sed :)
 	
 	@Override
@@ -73,8 +88,7 @@ public class Main implements ModInitializer {
 			new BlockItem(MEMORY_CELL_BLOCK, new FabricItemSettings().group(ItemGroup.REDSTONE))
 		);
 		MEMORY_CELL_BLOCK_ENTITY = Registry.register(
-			Registry.BLOCK_ENTITY_TYPE,
-			new Identifier(MOD_ID, MEMORY_CELL_NAME),
+			Registry.BLOCK_ENTITY_TYPE, new Identifier(MOD_ID, MEMORY_CELL_NAME),
 			FabricBlockEntityTypeBuilder.create(MemoryCellBlockEntity::new, MEMORY_CELL_BLOCK).build()
 		);
 		
@@ -83,6 +97,22 @@ public class Main implements ModInitializer {
 		Registry.register(
 			Registry.ITEM, new Identifier(MOD_ID, CONFIGURABLE_REDSTONE_BLOCK_NAME),
 			new BlockItem(CONFIGURABLE_REDSTONE_BLOCK, new FabricItemSettings().group(ItemGroup.REDSTONE))
+		);
+		
+		// configurable tnt block
+		Registry.register(Registry.BLOCK, new Identifier(MOD_ID, CONFIGURABLE_TNT_BLOCK_NAME), CONFIGURABLE_TNT_BLOCK);
+		Registry.register(
+			Registry.ITEM, new Identifier(MOD_ID, CONFIGURABLE_TNT_BLOCK_NAME),
+			new BlockItem(CONFIGURABLE_TNT_BLOCK, new FabricItemSettings().group(ItemGroup.REDSTONE))
+		);
+		CONFIGURABLE_TNT_ENTITY = Registry.register(
+			Registry.ENTITY_TYPE, new Identifier(MOD_ID, CONFIGURABLE_TNT_BLOCK_NAME),
+			FabricEntityTypeBuilder.create(SpawnGroup.MISC, ConfigurableTntEntity::new)
+			.fireImmune()
+			.dimensions(EntityDimensions.fixed(0.98F, 0.98F))
+			.trackRangeBlocks(10)
+			.trackedUpdateRate(10)
+			.build()
 		);
 	}
 }
