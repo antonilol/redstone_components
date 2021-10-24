@@ -13,7 +13,8 @@
 							"properties": {
 								"relative_x": "0",
 								"relative_y": "0",
-								"relative_z": "0"
+								"relative_z": "0",
+								"unstable": "false"
 							}
 						}
 					],

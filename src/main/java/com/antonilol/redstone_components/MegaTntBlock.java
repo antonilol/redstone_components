@@ -7,6 +7,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.TntBlock;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.StateManager.Builder;
@@ -15,6 +16,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Direction.Axis;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldEvents;
 
 public class MegaTntBlock extends TntBlock {
 	
@@ -22,6 +24,27 @@ public class MegaTntBlock extends TntBlock {
 	public static final IntProperty REL_Y = IntProperty.of("relative_y", 0, 1);
 	public static final IntProperty REL_Z = IntProperty.of("relative_z", 0, 1);
 
+	private static BlockPos getOrigin(BlockPos pos, BlockState state) {
+		return pos
+			.offset(Axis.X, -state.get(REL_X))
+			.offset(Axis.Y, -state.get(REL_Y))
+			.offset(Axis.Z, -state.get(REL_Z));
+	}
+	
+	private static boolean isOrigin(BlockState state) {
+		return
+			state.get(REL_X) == 0 &&
+			state.get(REL_Y) == 0 &&
+			state.get(REL_Z) == 0;
+	}
+	
+	private static int getRelIntPos(BlockState state) {
+		return
+			 state.get(REL_X) |
+			(state.get(REL_Y) << 1) |
+			(state.get(REL_Z) << 2);
+	}
+	
 	public MegaTntBlock(Settings settings) {
 		super(settings);
 		
@@ -106,45 +129,62 @@ public class MegaTntBlock extends TntBlock {
 	}
 	
 	@Override
+	public void onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
+		
+		BlockPos origin = getOrigin(pos, state);
+		
+		for (int i = 0; i < 8; i++) {
+			if (i == getRelIntPos(state)) {
+				continue;
+			}
+			
+			int x =  i & 0b001;
+			int y = (i & 0b010) >> 1;
+			int z = (i & 0b100) >> 2;
+			
+			BlockPos offset = origin
+				.offset(Axis.X, x)
+				.offset(Axis.Y, y)
+				.offset(Axis.Z, z);
+			
+			BlockState blockState = world.getBlockState(offset);
+			world.setBlockState(offset, Blocks.AIR.getDefaultState(), Block.NOTIFY_ALL | (player.isCreative() ? Block.SKIP_DROPS : 0));
+			world.syncWorldEvent(player, WorldEvents.BLOCK_BROKEN, offset, Block.getRawIdFromState(blockState));
+		}
+		
+		super.onBreak(world, pos, state, player);
+	}
+	
+	@Override
 	public void onPlaced(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack itemStack) {
 		super.onPlaced(world, pos, state, placer, itemStack);
 		
-		int relX = state.get(REL_X);
-		int relY = state.get(REL_Y);
-		int relZ = state.get(REL_Z);
-		int mask = relX | (relY << 1) | (relZ << 2);
-				
-		BlockPos origin = pos
-			.offset(Axis.X, -relX)
-			.offset(Axis.Y, -relY)
-			.offset(Axis.Z, -relZ);
-				
-		if (!world.isClient) {
-			for (int i = 0; i < 8; i++) {
-				if (i == mask) {
-					continue;
-				}
-				
-				int x =  i & 0b001;
-				int y = (i & 0b010) >> 1;
-				int z = (i & 0b100) >> 2;
-				
-				BlockPos offset = origin
-					.offset(Axis.X, x)
-					.offset(Axis.Y, y)
-					.offset(Axis.Z, z);
-								
-				world.setBlockState(
-					offset,
-					state
-					.with(REL_X, x)
-					.with(REL_Y, y)
-					.with(REL_Z, z),
-					Block.NOTIFY_ALL
-				);
-				world.updateNeighbors(offset, Blocks.AIR);
-				state.updateNeighbors(world, offset, Block.NOTIFY_ALL);
+		BlockPos origin = getOrigin(pos, state);
+		
+		for (int i = 0; i < 8; i++) {
+			if (i == getRelIntPos(state)) {
+				continue;
 			}
+			
+			int x =  i & 0b001;
+			int y = (i & 0b010) >> 1;
+			int z = (i & 0b100) >> 2;
+			
+			BlockPos offset = origin
+				.offset(Axis.X, x)
+				.offset(Axis.Y, y)
+				.offset(Axis.Z, z);
+			
+			world.setBlockState(
+				offset,
+				state
+				.with(REL_X, x)
+				.with(REL_Y, y)
+				.with(REL_Z, z),
+				Block.NOTIFY_ALL
+			);
+			world.updateNeighbors(offset, Blocks.AIR);
+			state.updateNeighbors(world, offset, Block.NOTIFY_ALL);
 		}
 	}
 }
