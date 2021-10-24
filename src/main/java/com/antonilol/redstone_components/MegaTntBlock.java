@@ -16,6 +16,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Direction.Axis;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldEvents;
 
 public class MegaTntBlock extends TntBlock {
@@ -128,6 +129,28 @@ public class MegaTntBlock extends TntBlock {
 			.with(REL_Z, dirZ.getOffsetZ() == 1 ? 0 : 1);
 	}
 	
+//	@Override
+//	public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
+//		if (isOrigin(state)) {
+//			for (int i = 1; i < 8; i++) {
+//				int x =  i & 0b001;
+//				int y = (i & 0b010) >> 1;
+//				int z = (i & 0b100) >> 2;
+//				
+//				BlockPos offset = pos
+//					.offset(Axis.X, x)
+//					.offset(Axis.Y, y)
+//					.offset(Axis.Z, z);
+//				
+//				if (!world.getBlockState(offset).isOf(this)) {
+//					return Blocks.AIR.getDefaultState();
+//				}
+//			}
+//		}
+//		
+//		return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos);
+//	}
+	
 	@Override
 	public void onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
 		
@@ -148,8 +171,12 @@ public class MegaTntBlock extends TntBlock {
 				.offset(Axis.Z, z);
 			
 			BlockState blockState = world.getBlockState(offset);
-			world.setBlockState(offset, Blocks.AIR.getDefaultState(), Block.NOTIFY_ALL | (player.isCreative() ? Block.SKIP_DROPS : 0));
-			world.syncWorldEvent(player, WorldEvents.BLOCK_BROKEN, offset, Block.getRawIdFromState(blockState));
+			if (blockState.isOf(this)) {
+				//if (!isOrigin(blockState)) {
+					world.setBlockState(offset, Blocks.AIR.getDefaultState(), Block.NOTIFY_ALL | (player.isCreative() ? Block.SKIP_DROPS : 0));
+				//}
+				world.syncWorldEvent(player, WorldEvents.BLOCK_BROKEN, offset, Block.getRawIdFromState(blockState));
+			}
 		}
 		
 		super.onBreak(world, pos, state, player);
