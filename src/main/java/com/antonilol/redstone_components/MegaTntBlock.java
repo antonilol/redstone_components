@@ -18,9 +18,9 @@ import net.minecraft.world.World;
 
 public class MegaTntBlock extends TntBlock {
 	
-	public static final IntProperty REL_X = IntProperty.of("rel_x", 0, 1);
-	public static final IntProperty REL_Y = IntProperty.of("rel_y", 0, 1);
-	public static final IntProperty REL_Z = IntProperty.of("rel_z", 0, 1);
+	public static final IntProperty REL_X = IntProperty.of("relative_x", 0, 1);
+	public static final IntProperty REL_Y = IntProperty.of("relative_y", 0, 1);
+	public static final IntProperty REL_Z = IntProperty.of("relative_z", 0, 1);
 
 	public MegaTntBlock(Settings settings) {
 		super(settings);
