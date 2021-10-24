@@ -1,0 +1,10 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "minecraft:block/block",
+	"textures": {
+		"top": "redstone_components:block/tnt_top",
+		"bottom": "redstone_components:block/tnt_bottom",
+		"side": "redstone_components:block/tnt_side",
+		"particle": "redstone_components:block/tnt_side"
+	}
+}

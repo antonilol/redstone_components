@@ -1,9 +1,9 @@
 {
 	"parent": "minecraft:block/cube_column",
 	"textures": {
-		"end": "redstone_components:block/redstone_block",
+		"end": "minecraft:block/redstone_block",
 		"side": "redstone_components:block/crb_unlocked_15",
-		"particle": "redstone_components:block/redstone_block"
+		"particle": "minecraft:block/redstone_block"
 	},
 	"elements": [
 		{

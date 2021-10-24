@@ -1,0 +1,52 @@
+{
+	"variants": {
+		"unstable=false,relative_x=0,relative_y=0,relative_z=0": {
+			"model": "redstone_components:block/mega_tnt_000"
+		},
+		"unstable=false,relative_x=0,relative_y=0,relative_z=1": {
+			"model": "redstone_components:block/mega_tnt_001"
+		},
+		"unstable=false,relative_x=0,relative_y=1,relative_z=0": {
+			"model": "redstone_components:block/mega_tnt_010"
+		},
+		"unstable=false,relative_x=0,relative_y=1,relative_z=1": {
+			"model": "redstone_components:block/mega_tnt_011"
+		},
+		"unstable=false,relative_x=1,relative_y=0,relative_z=0": {
+			"model": "redstone_components:block/mega_tnt_100"
+		},
+		"unstable=false,relative_x=1,relative_y=0,relative_z=1": {
+			"model": "redstone_components:block/mega_tnt_101"
+		},
+		"unstable=false,relative_x=1,relative_y=1,relative_z=0": {
+			"model": "redstone_components:block/mega_tnt_110"
+		},
+		"unstable=false,relative_x=1,relative_y=1,relative_z=1": {
+			"model": "redstone_components:block/mega_tnt_111"
+		},
+		"unstable=true,relative_x=0,relative_y=0,relative_z=0": {
+			"model": "redstone_components:block/mega_tnt_000"
+		},
+		"unstable=true,relative_x=0,relative_y=0,relative_z=1": {
+			"model": "redstone_components:block/mega_tnt_001"
+		},
+		"unstable=true,relative_x=0,relative_y=1,relative_z=0": {
+			"model": "redstone_components:block/mega_tnt_010"
+		},
+		"unstable=true,relative_x=0,relative_y=1,relative_z=1": {
+			"model": "redstone_components:block/mega_tnt_011"
+		},
+		"unstable=true,relative_x=1,relative_y=0,relative_z=0": {
+			"model": "redstone_components:block/mega_tnt_100"
+		},
+		"unstable=true,relative_x=1,relative_y=0,relative_z=1": {
+			"model": "redstone_components:block/mega_tnt_101"
+		},
+		"unstable=true,relative_x=1,relative_y=1,relative_z=0": {
+			"model": "redstone_components:block/mega_tnt_110"
+		},
+		"unstable=true,relative_x=1,relative_y=1,relative_z=1": {
+			"model": "redstone_components:block/mega_tnt_111"
+		}
+	}
+}
