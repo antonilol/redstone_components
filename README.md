@@ -16,8 +16,8 @@ If not, create it.
 New blocks added by this mod:
 - Memory Cell
 - Configurable Redstone Block
-- *Configurable TNT (uncomplete)*
-- *Mega TNT (planned)*
+- *Configurable TNT (incomplete)*
+- *Mega TNT (incomplete, bugged (can sometimes replace blocks including bedrock))*
 - Probable more in the future...
 
 [//]: # (Comment: TODO more text here)

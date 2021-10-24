@@ -51,16 +51,24 @@ public class Main implements ModInitializer {
 	);
 	
 	public static final String CONFIGURABLE_REDSTONE_BLOCK_NAME = "configurable_redstone_block";
-
+	
 	public static final Block CONFIGURABLE_TNT_BLOCK = new ConfigurableTntBlock(
 		FabricBlockSettings.of(Material.TNT)
 		.breakInstantly()
 		.sounds(BlockSoundGroup.GRASS)
 	);
-	
+
 	public static final String CONFIGURABLE_TNT_BLOCK_NAME = "configurable_tnt";
 	
 	public static EntityType<ConfigurableTntEntity> CONFIGURABLE_TNT_ENTITY;
+	
+	public static final Block MEGA_TNT_BLOCK = new MegaTntBlock(
+		FabricBlockSettings.of(Material.TNT)
+		.breakInstantly()
+		.sounds(BlockSoundGroup.GRASS)
+	);
+	
+	public static final String MEGA_TNT_BLOCK_NAME = "mega_tnt";
 	
 	public static final Block MEMORY_CELL_BLOCK = new MemoryCellBlock(
 		FabricBlockSettings.of(Material.DECORATION)
@@ -113,6 +121,13 @@ public class Main implements ModInitializer {
 			.trackRangeBlocks(10)
 			.trackedUpdateRate(10)
 			.build()
+		);
+		
+		// mega tnt block
+		Registry.register(Registry.BLOCK, new Identifier(MOD_ID, MEGA_TNT_BLOCK_NAME), MEGA_TNT_BLOCK);
+		Registry.register(
+			Registry.ITEM, new Identifier(MOD_ID, MEGA_TNT_BLOCK_NAME),
+			new BlockItem(MEGA_TNT_BLOCK, new FabricItemSettings().group(ItemGroup.REDSTONE))
 		);
 	}
 }
