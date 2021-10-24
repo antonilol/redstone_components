@@ -11,9 +11,9 @@
 							"condition": "minecraft:block_state_property",
 							"block": "redstone_components:mega_tnt",
 							"properties": {
-								"rel_x": "0",
-								"rel_y": "0",
-								"rel_z": "0"
+								"relative_x": "0",
+								"relative_y": "0",
+								"relative_z": "0"
 							}
 						}
 					],
