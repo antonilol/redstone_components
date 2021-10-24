@@ -1,0 +1,34 @@
+{
+	"parent": "minecraft:recipes/root",
+	"rewards": {
+		"recipes": [
+			"redstone_components:mega_tnt"
+		]
+	},
+	"criteria": {
+		"has_tnt": {
+			"trigger": "minecraft:inventory_changed",
+			"conditions": {
+				"items": [
+					{
+						"items": [
+							"minecraft:tnt"
+						]
+					}
+				]
+			}
+		},
+		"has_the_recipe": {
+			"trigger": "minecraft:recipe_unlocked",
+			"conditions": {
+				"recipe": "redstone_components:mega_tnt"
+			}
+		}
+	},
+	"requirements": [
+		[
+			"has_tnt",
+			"has_the_recipe"
+		]
+	]
+}

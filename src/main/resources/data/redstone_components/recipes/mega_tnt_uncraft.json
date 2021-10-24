@@ -1,0 +1,12 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"ingredients": [
+		{
+			"item": "redstone_components:mega_tnt"
+		}
+	],
+	"result": {
+		"item": "minecraft:tnt",
+		"count": 8
+	}
+}
