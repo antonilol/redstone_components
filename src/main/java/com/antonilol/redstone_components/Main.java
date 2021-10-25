@@ -68,7 +68,9 @@ public class Main implements ModInitializer {
 		.sounds(BlockSoundGroup.GRASS)
 	);
 	
-	public static final String MEGA_TNT_BLOCK_NAME = "mega_tnt";
+	public static EntityType<MegaTntEntity> MEGA_TNT_ENTITY;
+	
+	public static final String MEGA_TNT_NAME = "mega_tnt";
 	
 	public static final Block MEMORY_CELL_BLOCK = new MemoryCellBlock(
 		FabricBlockSettings.of(Material.DECORATION)
@@ -77,10 +79,10 @@ public class Main implements ModInitializer {
 	);
 	
 	public static BlockEntityType<MemoryCellBlockEntity> MEMORY_CELL_BLOCK_ENTITY;
+
 	
 	public static final String MEMORY_CELL_NAME = "memory_cell";
 
-	
 	public static final String MOD_ID = "redstone_components";
 
 	public static final String VERSION = "1.0.0"; // updated by updateVersion script with sed :)
@@ -107,27 +109,36 @@ public class Main implements ModInitializer {
 			new BlockItem(CONFIGURABLE_REDSTONE_BLOCK, new FabricItemSettings().group(ItemGroup.REDSTONE))
 		);
 		
-		// configurable tnt block
-		Registry.register(Registry.BLOCK, new Identifier(MOD_ID, CONFIGURABLE_TNT_BLOCK_NAME), CONFIGURABLE_TNT_BLOCK);
+		// configurable tnt
+//		Registry.register(Registry.BLOCK, new Identifier(MOD_ID, CONFIGURABLE_TNT_BLOCK_NAME), CONFIGURABLE_TNT_BLOCK);
+//		Registry.register(
+//			Registry.ITEM, new Identifier(MOD_ID, CONFIGURABLE_TNT_BLOCK_NAME),
+//			new BlockItem(CONFIGURABLE_TNT_BLOCK, new FabricItemSettings().group(ItemGroup.REDSTONE))
+//		);
+//		CONFIGURABLE_TNT_ENTITY = Registry.register(
+//			Registry.ENTITY_TYPE, new Identifier(MOD_ID, CONFIGURABLE_TNT_BLOCK_NAME),
+//			FabricEntityTypeBuilder.create(SpawnGroup.MISC, ConfigurableTntEntity::new)
+//			.fireImmune()
+//			.dimensions(EntityDimensions.fixed(0.98F, 0.98F))
+//			.trackRangeBlocks(10)
+//			.trackedUpdateRate(10)
+//			.build()
+//		);
+		
+		// mega tnt
+		Registry.register(Registry.BLOCK, new Identifier(MOD_ID, MEGA_TNT_NAME), MEGA_TNT_BLOCK);
 		Registry.register(
-			Registry.ITEM, new Identifier(MOD_ID, CONFIGURABLE_TNT_BLOCK_NAME),
-			new BlockItem(CONFIGURABLE_TNT_BLOCK, new FabricItemSettings().group(ItemGroup.REDSTONE))
+			Registry.ITEM, new Identifier(MOD_ID, MEGA_TNT_NAME),
+			new BlockItem(MEGA_TNT_BLOCK, new FabricItemSettings().group(ItemGroup.REDSTONE))
 		);
-		CONFIGURABLE_TNT_ENTITY = Registry.register(
-			Registry.ENTITY_TYPE, new Identifier(MOD_ID, CONFIGURABLE_TNT_BLOCK_NAME),
-			FabricEntityTypeBuilder.create(SpawnGroup.MISC, ConfigurableTntEntity::new)
+		MEGA_TNT_ENTITY = Registry.register(
+			Registry.ENTITY_TYPE, new Identifier(MOD_ID, MEGA_TNT_NAME),
+			FabricEntityTypeBuilder.create(SpawnGroup.MISC, MegaTntEntity::new)
 			.fireImmune()
-			.dimensions(EntityDimensions.fixed(0.98F, 0.98F))
+			.dimensions(EntityDimensions.fixed(1.98F, 1.98F))
 			.trackRangeBlocks(10)
 			.trackedUpdateRate(10)
 			.build()
-		);
-		
-		// mega tnt block
-		Registry.register(Registry.BLOCK, new Identifier(MOD_ID, MEGA_TNT_BLOCK_NAME), MEGA_TNT_BLOCK);
-		Registry.register(
-			Registry.ITEM, new Identifier(MOD_ID, MEGA_TNT_BLOCK_NAME),
-			new BlockItem(MEGA_TNT_BLOCK, new FabricItemSettings().group(ItemGroup.REDSTONE))
 		);
 	}
 }

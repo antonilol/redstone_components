@@ -129,30 +129,47 @@ public class MegaTntBlock extends TntBlock {
 			.with(REL_Z, dirZ.getOffsetZ() == 1 ? 0 : 1);
 	}
 	
-//	@Override
-//	public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
-//		if (isOrigin(state)) {
-//			for (int i = 1; i < 8; i++) {
-//				int x =  i & 0b001;
-//				int y = (i & 0b010) >> 1;
-//				int z = (i & 0b100) >> 2;
-//				
-//				BlockPos offset = pos
-//					.offset(Axis.X, x)
-//					.offset(Axis.Y, y)
-//					.offset(Axis.Z, z);
-//				
-//				if (!world.getBlockState(offset).isOf(this)) {
-//					return Blocks.AIR.getDefaultState();
-//				}
-//			}
+	@Override
+	public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
+//		if (isOrigin(state) && b) {
+//			return Blocks.AIR.getDefaultState();
 //		}
 //		
-//		return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos);
-//	}
+//		return state;
+		if (!neighborState.isOf(this)) {
+			return state;
+		}
+		
+		if (isOrigin(state)) {
+			
+			for (int i = 1; i < 8; i++) {
+				int x =  i & 0b001;
+				int y = (i & 0b010) >> 1;
+				int z = (i & 0b100) >> 2;
+				
+				BlockPos offset = pos
+					.offset(Axis.X, x)
+					.offset(Axis.Y, y)
+					.offset(Axis.Z, z);
+				
+//				if (!offset.equals(neighborPos)) {
+//					continue;
+//				}
+				
+				if (!world.getBlockState(offset).isOf(this)) {
+//					System.out.println(state + "\n  Had to remove block... " + world.isClient());
+//					return state;
+					return Blocks.AIR.getDefaultState();
+				}
+			}
+		}
+		
+		return state;
+	}
 	
 	@Override
 	public void onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
+		System.out.println("onBreak " + world.isClient);
 		
 		BlockPos origin = getOrigin(pos, state);
 		
@@ -172,10 +189,10 @@ public class MegaTntBlock extends TntBlock {
 			
 			BlockState blockState = world.getBlockState(offset);
 			if (blockState.isOf(this)) {
-				//if (!isOrigin(blockState)) {
-					world.setBlockState(offset, Blocks.AIR.getDefaultState(), Block.NOTIFY_ALL | (player.isCreative() ? Block.SKIP_DROPS : 0));
-				//}
-				world.syncWorldEvent(player, WorldEvents.BLOCK_BROKEN, offset, Block.getRawIdFromState(blockState));
+				if (!isOrigin(blockState)) {
+					world.setBlockState(offset, Blocks.AIR.getDefaultState(), Block.NOTIFY_ALL);
+					world.syncWorldEvent(player, WorldEvents.BLOCK_BROKEN, offset, Block.getRawIdFromState(blockState));
+				}
 			}
 		}
 		
@@ -210,8 +227,8 @@ public class MegaTntBlock extends TntBlock {
 				.with(REL_Z, z),
 				Block.NOTIFY_ALL
 			);
-			world.updateNeighbors(offset, Blocks.AIR);
-			state.updateNeighbors(world, offset, Block.NOTIFY_ALL);
+//			world.updateNeighbors(offset, Blocks.AIR);
+//			state.updateNeighbors(world, offset, Block.NOTIFY_ALL);
 		}
 	}
 }

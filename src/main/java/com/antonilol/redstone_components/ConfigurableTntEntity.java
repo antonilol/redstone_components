@@ -6,7 +6,7 @@ import net.minecraft.world.World;
 
 public class ConfigurableTntEntity extends TntEntity {
 	
-	public ConfigurableTntEntity(EntityType<? extends TntEntity> entityType, World world) {
+	public ConfigurableTntEntity(EntityType<? extends ConfigurableTntEntity> entityType, World world) {
 		super(entityType, world);
 	}
 
