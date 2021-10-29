@@ -17,7 +17,7 @@ New blocks added by this mod:
 - Memory Cell
 - Configurable Redstone Block
 - *Configurable TNT (incomplete)*
-- *Mega TNT (incomplete, bugged (can sometimes replace blocks including bedrock))*
+- *Mega TNT (incomplete (when ignited it doesn't spawn mega tnt entity), bugged (drops origin block on place))*
 - Probable more in the future...
 
 [//]: # (Comment: TODO more text here)

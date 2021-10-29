@@ -114,11 +114,12 @@ public class MegaTntBlock extends TntBlock {
 			int y = (i & 0b010) >> 1;
 			int z = (i & 0b100) >> 2;
 			
-			if (!(
-				world.getBlockState(pos.offset(dirX, x)).canReplace(ctx) &&
-				world.getBlockState(pos.offset(dirY, y)).canReplace(ctx) &&
-				world.getBlockState(pos.offset(dirZ, z)).canReplace(ctx)
-			)) {
+			if (!world.getBlockState(
+					pos
+						.offset(dirX, x)
+						.offset(dirY, y)
+						.offset(dirZ, z)
+				).canReplace(ctx)) {
 				return null;
 			}
 		}
