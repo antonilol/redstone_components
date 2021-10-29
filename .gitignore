@@ -2,11 +2,13 @@ bin/
 build/
 run/
 
+.idea/
 .gradle/
 .settings/
 
 .classpath
 .project
-
-compileBeta
+*.iml
+*.ipr
+*.iws
 
