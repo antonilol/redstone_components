@@ -6,6 +6,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.TntBlock;
+import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
@@ -16,7 +17,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Direction.Axis;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldEvents;
 
 public class MegaTntBlock extends TntBlock {
@@ -30,13 +30,6 @@ public class MegaTntBlock extends TntBlock {
 			.offset(Axis.X, -state.get(REL_X))
 			.offset(Axis.Y, -state.get(REL_Y))
 			.offset(Axis.Z, -state.get(REL_Z));
-	}
-	
-	private static boolean isOrigin(BlockState state) {
-		return
-			state.get(REL_X) == 0 &&
-			state.get(REL_Y) == 0 &&
-			state.get(REL_Z) == 0;
 	}
 	
 	private static int getRelIntPos(BlockState state) {
@@ -62,6 +55,11 @@ public class MegaTntBlock extends TntBlock {
 	protected void appendProperties(Builder<Block, BlockState> builder) {
 		super.appendProperties(builder);
 		builder.add(REL_X, REL_Y, REL_Z);
+	}
+	
+	@Override
+	public PistonBehavior getPistonBehavior(BlockState state) {
+		return PistonBehavior.BLOCK;
 	}
 	
 	@Override
@@ -131,53 +129,15 @@ public class MegaTntBlock extends TntBlock {
 	}
 	
 	@Override
-	public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
-//		if (isOrigin(state) && b) {
-//			return Blocks.AIR.getDefaultState();
-//		}
-//		
-//		return state;
-		if (!neighborState.isOf(this)) {
-			return state;
-		}
-		
-		if (isOrigin(state)) {
-			
-			for (int i = 1; i < 8; i++) {
-				int x =  i & 0b001;
-				int y = (i & 0b010) >> 1;
-				int z = (i & 0b100) >> 2;
-				
-				BlockPos offset = pos
-					.offset(Axis.X, x)
-					.offset(Axis.Y, y)
-					.offset(Axis.Z, z);
-				
-//				if (!offset.equals(neighborPos)) {
-//					continue;
-//				}
-				
-				if (!world.getBlockState(offset).isOf(this)) {
-//					System.out.println(state + "\n  Had to remove block... " + world.isClient());
-//					return state;
-					return Blocks.AIR.getDefaultState();
-				}
-			}
-		}
-		
-		return state;
-	}
-	
-	@Override
 	public void onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
 		System.out.println("onBreak " + world.isClient);
 		
 		BlockPos origin = getOrigin(pos, state);
 		
 		for (int i = 0; i < 8; i++) {
-			if (i == getRelIntPos(state)) {
-				continue;
-			}
+			//if (i == getRelIntPos(state)) {
+			//	continue;
+			//}
 			
 			int x =  i & 0b001;
 			int y = (i & 0b010) >> 1;
@@ -190,11 +150,13 @@ public class MegaTntBlock extends TntBlock {
 			
 			BlockState blockState = world.getBlockState(offset);
 			if (blockState.isOf(this)) {
-				if (!isOrigin(blockState)) {
-					world.setBlockState(offset, Blocks.AIR.getDefaultState(), Block.NOTIFY_ALL);
-					world.syncWorldEvent(player, WorldEvents.BLOCK_BROKEN, offset, Block.getRawIdFromState(blockState));
-				}
+				world.setBlockState(offset, Blocks.AIR.getDefaultState(), Block.NOTIFY_ALL);
+				world.syncWorldEvent(player, WorldEvents.BLOCK_BROKEN, offset, Block.getRawIdFromState(blockState));
 			}
+		}
+		
+		if (!player.isCreative()) {
+			Block.dropStacks(getDefaultState(), world, origin, null, player, new ItemStack(this));
 		}
 		
 		super.onBreak(world, pos, state, player);
@@ -228,8 +190,6 @@ public class MegaTntBlock extends TntBlock {
 				.with(REL_Z, z),
 				Block.NOTIFY_ALL
 			);
-//			world.updateNeighbors(offset, Blocks.AIR);
-//			state.updateNeighbors(world, offset, Block.NOTIFY_ALL);
 		}
 	}
 }
