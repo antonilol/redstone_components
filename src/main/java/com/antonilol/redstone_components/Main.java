@@ -133,7 +133,7 @@ public class Main implements ModInitializer {
 		);
 		MEGA_TNT_ENTITY = Registry.register(
 			Registry.ENTITY_TYPE, new Identifier(MOD_ID, MEGA_TNT_NAME),
-			FabricEntityTypeBuilder.create(SpawnGroup.MISC, MegaTntEntity::new)
+			FabricEntityTypeBuilder.create(SpawnGroup.MISC, MegaTntEntity::create) // ::create is workaround bc MegaTntEntity has 1+ constructors. same problem here -> https://stackoverflow.com/q/45329062
 			.fireImmune()
 			.dimensions(EntityDimensions.fixed(1.98F, 1.98F))
 			.trackRangeBlocks(10)

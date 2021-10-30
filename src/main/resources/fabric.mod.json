@@ -28,7 +28,7 @@
     "client": [ "com.antonilol.redstone_components.MainClient" ]
   },
 
-  "mixins": [ ],
+  "mixins": [ "mixins.json" ],
 
   "depends": {
     "fabricloader": ">=0.11.3",

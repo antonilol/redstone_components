@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.antonilol.redstone_components.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+  ],
+  "client": [
+    "MegaTntMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

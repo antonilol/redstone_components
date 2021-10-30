@@ -11,13 +11,18 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager.Builder;
 import net.minecraft.state.property.IntProperty;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Direction.Axis;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldEvents;
+import net.minecraft.world.event.GameEvent;
+import net.minecraft.world.explosion.Explosion;
 
 public class MegaTntBlock extends TntBlock {
 	
@@ -55,6 +60,35 @@ public class MegaTntBlock extends TntBlock {
 	protected void appendProperties(Builder<Block, BlockState> builder) {
 		super.appendProperties(builder);
 		builder.add(REL_X, REL_Y, REL_Z);
+	}
+	
+	public void breakBlocks(World world, BlockPos pos, BlockState state, @Nullable PlayerEntity player) {
+		BlockPos origin = getOrigin(pos, state);
+		
+		for (int i = 0; i < 8; i++) {
+			int x =  i & 0b001;
+			int y = (i & 0b010) >> 1;
+			int z = (i & 0b100) >> 2;
+			
+			BlockPos offset = origin
+				.offset(Axis.X, x)
+				.offset(Axis.Y, y)
+				.offset(Axis.Z, z);
+			
+			BlockState blockState = world.getBlockState(offset);
+			if (blockState.isOf(this)) {
+				if (player == null) {
+					world.removeBlock(offset, false);
+				} else {
+					world.setBlockState(offset, Blocks.AIR.getDefaultState(), Block.NOTIFY_ALL);
+					world.syncWorldEvent(player, WorldEvents.BLOCK_BROKEN, offset, Block.getRawIdFromState(blockState));
+				}
+			}
+		}
+		
+		if (player != null && !player.isCreative()) {
+			Block.dropStacks(getDefaultState(), world, origin, null, player, new ItemStack(this));
+		}
 	}
 	
 	@Override
@@ -130,36 +164,19 @@ public class MegaTntBlock extends TntBlock {
 	
 	@Override
 	public void onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
-		System.out.println("onBreak " + world.isClient);
-		
-		BlockPos origin = getOrigin(pos, state);
-		
-		for (int i = 0; i < 8; i++) {
-			//if (i == getRelIntPos(state)) {
-			//	continue;
-			//}
-			
-			int x =  i & 0b001;
-			int y = (i & 0b010) >> 1;
-			int z = (i & 0b100) >> 2;
-			
-			BlockPos offset = origin
-				.offset(Axis.X, x)
-				.offset(Axis.Y, y)
-				.offset(Axis.Z, z);
-			
-			BlockState blockState = world.getBlockState(offset);
-			if (blockState.isOf(this)) {
-				world.setBlockState(offset, Blocks.AIR.getDefaultState(), Block.NOTIFY_ALL);
-				world.syncWorldEvent(player, WorldEvents.BLOCK_BROKEN, offset, Block.getRawIdFromState(blockState));
-			}
-		}
-		
-		if (!player.isCreative()) {
-			Block.dropStacks(getDefaultState(), world, origin, null, player, new ItemStack(this));
-		}
+		breakBlocks(world, pos, state, player);
 		
 		super.onBreak(world, pos, state, player);
+	}
+	
+	@Override
+	public void onDestroyedByExplosion(World world, BlockPos pos, Explosion explosion) {
+		if (!world.isClient) {
+			MegaTntEntity tnt = primeMegaTnt(world, pos, explosion.getCausingEntity());
+			if (tnt != null) {
+				tnt.setFuse(MegaTntEntity.DEFAULT_FUSE / 2);
+			}
+		}
 	}
 	
 	@Override
@@ -191,5 +208,29 @@ public class MegaTntBlock extends TntBlock {
 				Block.NOTIFY_ALL
 			);
 		}
+	}
+	
+	public @Nullable MegaTntEntity primeMegaTnt(World world, BlockPos pos, @Nullable LivingEntity igniter) {
+		BlockState state = world.getBlockState(pos);
+		if (!state.isOf(this)) {
+			return null;
+		}
+		BlockPos origin = getOrigin(pos, state);
+		Vec3d spawnPos = Vec3d.of(origin.add(1, 0, 1));
+		
+		MegaTntEntity tnt = new MegaTntEntity(world, igniter);
+		tnt.setPosition(spawnPos);
+		tnt.prevX = spawnPos.getX();
+		tnt.prevY = spawnPos.getY();
+		tnt.prevZ = spawnPos.getZ();
+		tnt.setFuse(MegaTntEntity.DEFAULT_FUSE);
+		world.spawnEntity(tnt);
+		
+		breakBlocks(world, pos, state, null);
+		
+		world.playSound(null, tnt.getX(), tnt.getY(), tnt.getZ(), SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0F, 1.0F);
+		world.emitGameEvent(igniter, GameEvent.PRIME_FUSE, pos);
+		
+		return tnt;
 	}
 }
