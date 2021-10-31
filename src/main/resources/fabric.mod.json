@@ -1,47 +1,41 @@
 {
-  "schemaVersion": 1,
-
-  "id": "redstone_components",
-
-  "version": "${version}",
-
-  "name": "Redstone Components",
-
-  "description": "Redstone Components",
-
-  "authors": [ "antonilol" ],
-
-  "contact": {
-    "homepage": "https://github.com/antonilol/redstone_components",
-    "sources":  "https://github.com/antonilol/redstone_components",
-    "issues":   "https://github.com/antonilol/redstone_components/issues"
-  },
-
-  "license": "MIT",
-
-  "icon": "assets/redstone_components/icon.png",
-
-  "environment": "*",
-
-  "entrypoints": {
-    "main":   [ "com.antonilol.redstone_components.Main" ],
-    "client": [ "com.antonilol.redstone_components.MainClient" ]
-  },
-
-  "mixins": [ "mixins.json" ],
-
-  "depends": {
-    "fabricloader": ">=0.11.3",
-    "fabric": "*",
-    "minecraft": "1.17.x",
-    "java": ">=16"
-  },
-
-  "suggests": { },
-
-  "custom": {
-    "modmenu": {
-      "links": { }
-    }
-  }
+	"schemaVersion": 1,
+	"id": "redstone_components",
+	"version": "${version}",
+	"name": "Redstone Components",
+	"description": "Redstone Components",
+	"authors": [
+		"antonilol"
+	],
+	"contact": {
+		"homepage": "https://github.com/antonilol/redstone_components",
+		"sources": "https://github.com/antonilol/redstone_components",
+		"issues": "https://github.com/antonilol/redstone_components/issues"
+	},
+	"license": "MIT",
+	"icon": "assets/redstone_components/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"com.antonilol.redstone_components.Main"
+		],
+		"client": [
+			"com.antonilol.redstone_components.MainClient"
+		]
+	},
+	"mixins": [
+		"mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.11.3",
+		"fabric": "*",
+		"minecraft": "1.17.x",
+		"java": ">=16"
+	},
+	"suggests": {},
+	"custom": {
+		"modmenu": {
+			"links": {}
+		}
+	}
 }
