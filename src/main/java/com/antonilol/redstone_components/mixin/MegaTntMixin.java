@@ -16,6 +16,7 @@ import net.minecraft.world.World;
 
 @Mixin(TntBlock.class)
 public class MegaTntMixin {
+	
 	@Inject(
 		at = @At("HEAD"),
 		method = "Lnet/minecraft/block/TntBlock;primeTnt(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/entity/LivingEntity;)V",

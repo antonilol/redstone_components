@@ -6,7 +6,8 @@
   "mixins": [
   ],
   "client": [
-    "MegaTntMixin"
+    "MegaTntMixin",
+    "WorldMixin"
   ],
   "injectors": {
     "defaultRequire": 1

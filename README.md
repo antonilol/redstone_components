@@ -16,8 +16,8 @@ If not, create it.
 New blocks added by this mod:
 - Memory Cell
 - Configurable Redstone Block
+- Mega TNT (bugged (ignites multiple times with redstone))
 - *Configurable TNT (incomplete)*
-- *Mega TNT (incomplete (can't be ignited by explosions yet))*
 - Probable more in the future...
 
 [//]: # (Comment: TODO more text here)

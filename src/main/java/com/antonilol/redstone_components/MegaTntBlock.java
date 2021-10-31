@@ -26,17 +26,19 @@ import net.minecraft.world.explosion.Explosion;
 
 public class MegaTntBlock extends TntBlock {
 	
+	public static BlockState lastReplacedState = null;
+	
 	public static final IntProperty REL_X = IntProperty.of("relative_x", 0, 1);
 	public static final IntProperty REL_Y = IntProperty.of("relative_y", 0, 1);
 	public static final IntProperty REL_Z = IntProperty.of("relative_z", 0, 1);
-
+	
 	private static BlockPos getOrigin(BlockPos pos, BlockState state) {
 		return pos
 			.offset(Axis.X, -state.get(REL_X))
 			.offset(Axis.Y, -state.get(REL_Y))
 			.offset(Axis.Z, -state.get(REL_Z));
 	}
-	
+
 	private static int getRelIntPos(BlockState state) {
 		return
 			 state.get(REL_X) |
@@ -212,9 +214,19 @@ public class MegaTntBlock extends TntBlock {
 	
 	public @Nullable MegaTntEntity primeMegaTnt(World world, BlockPos pos, @Nullable LivingEntity igniter) {
 		BlockState state = world.getBlockState(pos);
+		
 		if (!state.isOf(this)) {
-			return null;
+			if (lastReplacedState == null) {
+				return null;
+			}
+			
+			state = lastReplacedState;
+			
+			if (!state.isOf(this)) {
+				return null;
+			}
 		}
+		
 		BlockPos origin = getOrigin(pos, state);
 		Vec3d spawnPos = Vec3d.of(origin.add(1, 0, 1));
 		
