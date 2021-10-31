@@ -44,7 +44,7 @@ public class WorldMixin {
 
 	@Inject(
 		at = @At("HEAD"),
-		method = "Lnet/minecraft/world/World;setBlockState(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/BlockState;ILorg/spongepowered/asm/mixin/injection/callback/CallbackInfoReturnable;)V"
+		method = "Lnet/minecraft/world/World;setBlockState(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/BlockState;I)Z"
 	)
 	public void setBlockState(BlockPos pos, BlockState state, int flags, CallbackInfoReturnable<Boolean> info) {
 		MegaTntBlock.lastReplacedState = getBlockState(pos);
