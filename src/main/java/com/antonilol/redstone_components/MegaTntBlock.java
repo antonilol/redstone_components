@@ -1,16 +1,16 @@
 /*
  * Copyright (c) 2021 Antoni Spaanderman
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -47,13 +47,13 @@ import net.minecraft.world.event.GameEvent;
 import net.minecraft.world.explosion.Explosion;
 
 public class MegaTntBlock extends TntBlock {
-	
+
 	public static BlockState lastReplacedState = null;
-	
+
 	public static final IntProperty REL_X = IntProperty.of("relative_x", 0, 1);
 	public static final IntProperty REL_Y = IntProperty.of("relative_y", 0, 1);
 	public static final IntProperty REL_Z = IntProperty.of("relative_z", 0, 1);
-	
+
 	private static BlockPos getOrigin(BlockPos pos, BlockState state) {
 		return pos
 			.offset(Axis.X, -state.get(REL_X))
@@ -67,10 +67,10 @@ public class MegaTntBlock extends TntBlock {
 			(state.get(REL_Y) << 1) |
 			(state.get(REL_Z) << 2);
 	}
-	
+
 	public MegaTntBlock(Settings settings) {
 		super(settings);
-		
+
 		setDefaultState(
 			stateManager.getDefaultState() // BedBlock
 			.with(UNSTABLE, false)
@@ -79,26 +79,26 @@ public class MegaTntBlock extends TntBlock {
 			.with(REL_Z, 0)
 		);
 	}
-	
+
 	@Override
 	protected void appendProperties(Builder<Block, BlockState> builder) {
 		super.appendProperties(builder);
 		builder.add(REL_X, REL_Y, REL_Z);
 	}
-	
+
 	public void breakBlocks(World world, BlockPos pos, BlockState state, @Nullable PlayerEntity player) {
 		BlockPos origin = getOrigin(pos, state);
-		
+
 		for (int i = 0; i < 8; i++) {
 			int x =  i & 0b001;
 			int y = (i & 0b010) >> 1;
 			int z = (i & 0b100) >> 2;
-			
+
 			BlockPos offset = origin
 				.offset(Axis.X, x)
 				.offset(Axis.Y, y)
 				.offset(Axis.Z, z);
-			
+
 			BlockState blockState = world.getBlockState(offset);
 			if (blockState.isOf(this)) {
 				if (player == null) {
@@ -109,35 +109,35 @@ public class MegaTntBlock extends TntBlock {
 				}
 			}
 		}
-		
+
 		if (player != null && !player.isCreative()) {
 			Block.dropStacks(getDefaultState(), world, origin, null, player, new ItemStack(this));
 		}
 	}
-	
+
 	@Override
 	public PistonBehavior getPistonBehavior(BlockState state) {
 		return PistonBehavior.BLOCK;
 	}
-	
+
 	@Override
 	public @Nullable BlockState getPlacementState(ItemPlacementContext ctx) {
 		@Nullable BlockState state;
-		
+
 		for (int i = 0; i < 8; i++) {
 			state = getPlacementState(ctx, i);
-			
-			if (state != null) {				
+
+			if (state != null) {
 				return state;
 			}
 		}
-		
+
 		return null;
 	}
-	
+
 	private @Nullable BlockState getPlacementState(ItemPlacementContext ctx, int invert) {
 		Direction dirX = null, dirY = null, dirZ = null;
-		
+
 		for (Direction d : ctx.getPlacementDirections()) {
 			if (d.getAxis() == Axis.X && dirX == null) {
 				if ((invert & 0b010) == 0) {
@@ -161,15 +161,15 @@ public class MegaTntBlock extends TntBlock {
 				break;
 			}
 		}
-		
+
 		BlockPos pos = ctx.getBlockPos();
 		World world = ctx.getWorld();
-		
+
 		for (int i = 1; i < 8; i++) {
 			int x =  i & 0b001;
 			int y = (i & 0b010) >> 1;
 			int z = (i & 0b100) >> 2;
-			
+
 			if (!world.getBlockState(
 					pos
 						.offset(dirX, x)
@@ -179,20 +179,20 @@ public class MegaTntBlock extends TntBlock {
 				return null;
 			}
 		}
-		
+
 		return getDefaultState()
 			.with(REL_X, dirX.getOffsetX() == 1 ? 0 : 1)
 			.with(REL_Y, dirY.getOffsetY() == 1 ? 0 : 1)
 			.with(REL_Z, dirZ.getOffsetZ() == 1 ? 0 : 1);
 	}
-	
+
 	@Override
 	public void onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
 		breakBlocks(world, pos, state, player);
-		
+
 		super.onBreak(world, pos, state, player);
 	}
-	
+
 	@Override
 	public void onDestroyedByExplosion(World world, BlockPos pos, Explosion explosion) {
 		if (!world.isClient) {
@@ -202,27 +202,27 @@ public class MegaTntBlock extends TntBlock {
 			}
 		}
 	}
-	
+
 	@Override
 	public void onPlaced(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack itemStack) {
 		super.onPlaced(world, pos, state, placer, itemStack);
-		
+
 		BlockPos origin = getOrigin(pos, state);
-		
+
 		for (int i = 0; i < 8; i++) {
 			if (i == getRelIntPos(state)) {
 				continue;
 			}
-			
+
 			int x =  i & 0b001;
 			int y = (i & 0b010) >> 1;
 			int z = (i & 0b100) >> 2;
-			
+
 			BlockPos offset = origin
 				.offset(Axis.X, x)
 				.offset(Axis.Y, y)
 				.offset(Axis.Z, z);
-			
+
 			world.setBlockState(
 				offset,
 				state
@@ -233,25 +233,25 @@ public class MegaTntBlock extends TntBlock {
 			);
 		}
 	}
-	
+
 	public @Nullable MegaTntEntity primeMegaTnt(World world, BlockPos pos, @Nullable LivingEntity igniter) {
 		BlockState state = world.getBlockState(pos);
-		
+
 		if (!state.isOf(this)) {
 			if (lastReplacedState == null) {
 				return null;
 			}
-			
+
 			state = lastReplacedState;
-			
+
 			if (!state.isOf(this)) {
 				return null;
 			}
 		}
-		
+
 		BlockPos origin = getOrigin(pos, state);
 		Vec3d spawnPos = Vec3d.of(origin.add(1, 0, 1));
-		
+
 		MegaTntEntity tnt = new MegaTntEntity(world, igniter);
 		tnt.setPosition(spawnPos);
 		tnt.prevX = spawnPos.getX();
@@ -259,12 +259,12 @@ public class MegaTntBlock extends TntBlock {
 		tnt.prevZ = spawnPos.getZ();
 		tnt.setFuse(MegaTntEntity.DEFAULT_FUSE);
 		world.spawnEntity(tnt);
-		
+
 		breakBlocks(world, pos, state, null);
-		
+
 		world.playSound(null, tnt.getX(), tnt.getY(), tnt.getZ(), SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0F, 1.0F);
 		world.emitGameEvent(igniter, GameEvent.PRIME_FUSE, pos);
-		
+
 		return tnt;
 	}
 }

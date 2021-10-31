@@ -1,16 +1,16 @@
 /*
  * Copyright (c) 2021 Antoni Spaanderman
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -28,15 +28,15 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.BlockPos;
 
 public class MemoryCellBlockEntity extends BlockEntity {
-	
+
 	public static final String MEMORY_TAG_NAME = "memory";
-	
+
 	private byte[] memory = new byte[128];
-	
+
 	public MemoryCellBlockEntity(BlockPos pos, BlockState state) {
 		super(Main.MEMORY_CELL_BLOCK_ENTITY, pos, state);
 	}
-	
+
 	public int read(byte address) {
 		final int b = memory[(address & 0xff) >> 1] & 0xff;
 		if ((address & 1) == 0) {
@@ -44,25 +44,25 @@ public class MemoryCellBlockEntity extends BlockEntity {
 		}
 		return b & 0xf;
 	}
-	
+
 	@Override
 	public void readNbt(NbtCompound tag) {
 		super.readNbt(tag);
-		
+
 		byte[] m = tag.getByteArray(MEMORY_TAG_NAME);
-		
+
 		if (m.length == 128) {
 			memory = m;
 		}
 	}
-	
+
 	public void write(byte address, int value) {
 		if (value < 0) {
 			value = 0;
 		} else if (value > 15) {
 			value = 15;
 		}
-		
+
 		final int index = (address & 0xff) >> 1;
 		final byte b = memory[index];
 		if ((address & 1) == 0) {
@@ -70,16 +70,16 @@ public class MemoryCellBlockEntity extends BlockEntity {
 		} else {
 			memory[index] = (byte) ((b & 0xf0) |  value      );
 		}
-		
+
 		markDirty();
 	}
-	
+
 	@Override
 	public NbtCompound writeNbt(NbtCompound tag) {
 		super.writeNbt(tag);
-		
+
 		tag.putByteArray(MEMORY_TAG_NAME, memory);
-		
+
 		return tag;
 	}
 }

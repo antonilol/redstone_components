@@ -1,16 +1,16 @@
 /*
  * Copyright (c) 2021 Antoni Spaanderman
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -39,7 +39,7 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
 public class MemoryCellBlock extends AbstractRedstoneGateBlock implements BlockEntityProvider {
-	
+
 	public static enum Mode implements StringIdentifiable {
 		READ("read"),
 		WRITE("write");
@@ -60,43 +60,43 @@ public class MemoryCellBlock extends AbstractRedstoneGateBlock implements BlockE
 			return this.name;
 		}
 	}
-	
+
 	public static final EnumProperty<Mode> MODE = EnumProperty.of("mode", Mode.class);
-	
+
 	protected byte address;
-	
+
 	protected MemoryCellBlock(Settings settings) {
 		super(settings);
-		
+
 		setDefaultState(
 			stateManager.getDefaultState()
 			.with(FACING, Direction.NORTH)
 			.with(MODE, Mode.READ)
 		);
 	}
-	
+
 	@Override
 	protected void appendProperties(Builder<Block, BlockState> builder) {
 		builder.add(FACING, MODE);
 	}
-	
+
 	@Override
 	public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
 		return new MemoryCellBlockEntity(pos, state);
 	}
-	
+
 	protected int getBottomPower(World world, BlockPos pos, BlockState state) {
 		return getPower(world, pos.offset(state.get(FACING).getOpposite()).offset(Direction.DOWN), state);
 	}
-	
+
 	protected byte getByteAddress(World world, BlockPos pos, BlockState state) {
 		return (byte) ((getLeftPower(world, pos, state) << 4) | getRightPower(world, pos, state));
 	}
-	
+
 	protected int getLeftPower(World world, BlockPos pos, BlockState state) {
 		return getPower(world, pos, state.with(FACING, state.get(FACING).rotateYClockwise()));
 	}
-	
+
 	@Override
 	protected int getOutputLevel(BlockView world, BlockPos pos, BlockState state) {
 		BlockEntity be = world.getBlockEntity(pos);
@@ -115,7 +115,7 @@ public class MemoryCellBlock extends AbstractRedstoneGateBlock implements BlockE
 	protected int getUpdateDelayInternal(BlockState state) {
 		return 2;
 	}
-	
+
 	@Override
 	public int getWeakRedstonePower(BlockState state, BlockView world, BlockPos pos, Direction dir) {
 		return state.get(FACING) == dir ? getOutputLevel(world, pos, state) : 0;
@@ -124,39 +124,39 @@ public class MemoryCellBlock extends AbstractRedstoneGateBlock implements BlockE
 	@Override
 	public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean notify) {
 		super.onBlockAdded(state, world, pos, oldState, notify);
-		
+
 		world.getBlockTickScheduler().schedule(pos, this, getUpdateDelayInternal(state));
 	}
 
 	@Override
 	public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
 		super.onStateReplaced(state, world, pos, newState, moved);
-		
+
 		world.getBlockTickScheduler().schedule(pos, this, getUpdateDelayInternal(state));
 	}
-	
+
 	@Override
 	public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
 		updateTarget(world, pos, state);
 	}
-	
+
 	@Override
 	protected void updatePowered(World world, BlockPos pos, BlockState state) {
 		address = getByteAddress(world, pos, state);
-		
+
 		Mode mode = getBottomPower(world, pos, state) > 0 ? Mode.WRITE : Mode.READ;
-		
+
 		if (mode != state.get(MODE)) {
 			world.setBlockState(pos, state.with(MODE, mode), Block.NOTIFY_LISTENERS);
 		}
-		
+
 		if (mode == Mode.WRITE) {
 			BlockEntity be = world.getBlockEntity(pos);
 			if (be instanceof MemoryCellBlockEntity) {
 				((MemoryCellBlockEntity) be).write(address, getPower(world, pos, state));
 			}
 		}
-		
+
 		world.getBlockTickScheduler().schedule(pos, this, getUpdateDelayInternal(state));
 	}
 }

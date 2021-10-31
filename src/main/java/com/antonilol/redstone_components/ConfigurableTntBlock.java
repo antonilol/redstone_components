@@ -1,16 +1,16 @@
 /*
  * Copyright (c) 2021 Antoni Spaanderman
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -36,7 +36,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class ConfigurableTntBlock extends TntBlock {
-	
+
 	public static enum ExplosionPower implements StringIdentifiable {
 		_00( "0",   0),
 		_01( "1",   1),
@@ -55,7 +55,7 @@ public class ConfigurableTntBlock extends TntBlock {
 		_14("14",  14),
 		_15("15",  15),
 		NBT("nbt", -1);
-		
+
 		public static final ExplosionPower DEFAULT = _04;
 
 		public static ExplosionPower fromNumber(int power) {
@@ -69,10 +69,10 @@ public class ConfigurableTntBlock extends TntBlock {
 			}
 			return NBT;
 		}
-		
+
 		private final String name;
 		private final int power;
-		
+
 		private ExplosionPower(String name, int power) {
 			this.name = name;
 			this.power = power;
@@ -88,19 +88,19 @@ public class ConfigurableTntBlock extends TntBlock {
 			return this.name;
 		}
 	}
-	
+
 	public static final EnumProperty<ExplosionPower> EXPLOSION_POWER = EnumProperty.of("explosion_power", ExplosionPower.class);
-	
+
 	public ConfigurableTntBlock(Settings settings) {
 		super(settings);
-		
+
 		setDefaultState(
 			stateManager.getDefaultState()
 			.with(UNSTABLE, false)
 			.with(EXPLOSION_POWER, ExplosionPower.DEFAULT)
 		);
 	}
-	
+
 	@Override
 	protected void appendProperties(Builder<Block, BlockState> builder) {
 		super.appendProperties(builder);
@@ -110,7 +110,7 @@ public class ConfigurableTntBlock extends TntBlock {
 	@Override
 	public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
 		ActionResult result = super.onUse(state, world, pos, player, hand, hit);
-		
+
 		return result;
 	}
 }
