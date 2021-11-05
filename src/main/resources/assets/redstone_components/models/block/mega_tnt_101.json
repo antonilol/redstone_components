@@ -2,9 +2,9 @@
 	"credit": "Made with Blockbench",
 	"parent": "minecraft:block/block",
 	"textures": {
-		"bottom": "block/tnt_bottom",
-		"particle": "block/tnt_side",
-		"side": "block/tnt_side"
+		"bottom": "minecraft:block/tnt_bottom",
+		"particle": "minecraft:block/tnt_side",
+		"side": "minecraft:block/tnt_side"
 	},
 	"elements": [
 		{
