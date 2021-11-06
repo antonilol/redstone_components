@@ -72,7 +72,7 @@ public class MegaTntBlock extends TntBlock {
 		super(settings);
 
 		setDefaultState(
-			stateManager.getDefaultState() // BedBlock
+			stateManager.getDefaultState()
 			.with(UNSTABLE, false)
 			.with(REL_X, 0)
 			.with(REL_Y, 0)
@@ -258,6 +258,8 @@ public class MegaTntBlock extends TntBlock {
 		tnt.prevY = spawnPos.getY();
 		tnt.prevZ = spawnPos.getZ();
 		tnt.setFuse(MegaTntEntity.DEFAULT_FUSE);
+		double angle = world.random.nextDouble() * Math.PI * 2;
+		tnt.setVelocity(Math.cos(angle) * 0.02, 0.2, Math.sin(angle) * 0.02);
 		world.spawnEntity(tnt);
 
 		breakBlocks(world, pos, state, null);
