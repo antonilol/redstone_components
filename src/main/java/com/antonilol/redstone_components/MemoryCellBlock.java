@@ -63,7 +63,7 @@ public class MemoryCellBlock extends AbstractRedstoneGateBlock implements BlockE
 
 	public static final EnumProperty<Mode> MODE = EnumProperty.of("mode", Mode.class);
 
-	protected byte address;
+	protected int address;
 
 	protected MemoryCellBlock(Settings settings) {
 		super(settings);
@@ -89,12 +89,19 @@ public class MemoryCellBlock extends AbstractRedstoneGateBlock implements BlockE
 		return getPower(world, pos.offset(state.get(FACING).getOpposite()).offset(Direction.DOWN), state);
 	}
 
-	protected byte getByteAddress(World world, BlockPos pos, BlockState state) {
-		return (byte) ((getLeftPower(world, pos, state) << 4) | getRightPower(world, pos, state));
+	protected int getByteAddress(World world, BlockPos pos, BlockState state) {
+		return (getLeftPower(world, pos, state) << 4) | getRightPower(world, pos, state);
 	}
 
 	protected int getLeftPower(World world, BlockPos pos, BlockState state) {
 		return getPower(world, pos, state.with(FACING, state.get(FACING).rotateYClockwise()));
+	}
+
+	protected Mode getMode(World world, BlockPos pos, BlockState state) {
+		if (getBottomPower(world, pos, state) > 0) {
+			return Mode.WRITE;
+		}
+		return Mode.READ;
 	}
 
 	@Override
@@ -144,7 +151,7 @@ public class MemoryCellBlock extends AbstractRedstoneGateBlock implements BlockE
 	protected void updatePowered(World world, BlockPos pos, BlockState state) {
 		address = getByteAddress(world, pos, state);
 
-		Mode mode = getBottomPower(world, pos, state) > 0 ? Mode.WRITE : Mode.READ;
+		Mode mode = getMode(world, pos, state);
 
 		if (mode != state.get(MODE)) {
 			world.setBlockState(pos, state.with(MODE, mode), Block.NOTIFY_LISTENERS);

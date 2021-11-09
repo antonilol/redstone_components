@@ -80,10 +80,20 @@ public class Main implements ModInitializer {
 
 	public static BlockEntityType<MemoryCellBlockEntity> MEMORY_CELL_BLOCK_ENTITY;
 
-
 	public static final String MEMORY_CELL_NAME = "memory_cell";
 
 	public static final String MOD_ID = "redstone_components";
+
+	public static final Block SMALL_MEMORY_CELL_BLOCK = new SmallMemoryCellBlock(
+		FabricBlockSettings.of(Material.DECORATION)
+		.breakInstantly()
+		.sounds(BlockSoundGroup.WOOD)
+	);
+
+	public static BlockEntityType<SmallMemoryCellBlockEntity> SMALL_MEMORY_CELL_BLOCK_ENTITY;
+
+	public static final String SMALL_MEMORY_CELL_NAME = "small_memory_cell";
+
 
 	public static final String VERSION = "1.0.2"; // updated by updateVersion script with sed :)
 
@@ -100,6 +110,17 @@ public class Main implements ModInitializer {
 		MEMORY_CELL_BLOCK_ENTITY = Registry.register(
 			Registry.BLOCK_ENTITY_TYPE, new Identifier(MOD_ID, MEMORY_CELL_NAME),
 			FabricBlockEntityTypeBuilder.create(MemoryCellBlockEntity::new, MEMORY_CELL_BLOCK).build()
+		);
+
+		// small memory cell
+		Registry.register(Registry.BLOCK, new Identifier(MOD_ID, SMALL_MEMORY_CELL_NAME), SMALL_MEMORY_CELL_BLOCK);
+		Registry.register(
+			Registry.ITEM, new Identifier(MOD_ID, SMALL_MEMORY_CELL_NAME),
+			new BlockItem(SMALL_MEMORY_CELL_BLOCK, new FabricItemSettings().group(ItemGroup.REDSTONE))
+		);
+		SMALL_MEMORY_CELL_BLOCK_ENTITY = Registry.register(
+			Registry.BLOCK_ENTITY_TYPE, new Identifier(MOD_ID, SMALL_MEMORY_CELL_NAME),
+			FabricBlockEntityTypeBuilder.create(SmallMemoryCellBlockEntity::new, SMALL_MEMORY_CELL_BLOCK).build()
 		);
 
 		// configurable redstone block

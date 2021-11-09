@@ -15,12 +15,12 @@ If not, create it.
 
 New blocks added by this mod:
 - Memory Cell
+- *Small Memory Cell (incomplete: blockstates, models, textures)*
 - Configurable Redstone Block
-- Mega TNT (bugged (ignites multiple times with redstone))
+- Mega TNT (bugged: ignites multiple times with redstone)
 - *Configurable TNT (incomplete)*
+- *corner/sideways/... repeater (need a better name!) (planned)*
 - Probable more in the future...
-
-[//]: # (Comment: TODO more text here)
 
 ## Compiling
 
