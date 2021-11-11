@@ -53,7 +53,7 @@ public class ConfigurableRedstoneBlock extends RedstoneBlock {
 		}
 	}
 
-	public ConfigurableRedstoneBlock(Settings settings) {
+	protected ConfigurableRedstoneBlock(Settings settings) {
 		super(settings);
 
 		setDefaultState(

@@ -1,5 +1,4 @@
 #!/bin/bash
 
-
 sed -i 's/[ \t]*$//' $(find src/main/java -type f)
 

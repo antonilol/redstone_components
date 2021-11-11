@@ -22,31 +22,31 @@
 
 package com.antonilol.redstone_components.mixin;
 
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import com.antonilol.redstone_components.MegaTntBlock;
+import com.antonilol.redstone_components.BentRepeaterBlock;
+import com.antonilol.redstone_components.Main;
 
 import net.minecraft.block.BlockState;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.block.RedstoneWireBlock;
+import net.minecraft.util.math.Direction;
 
-@Mixin(World.class)
-public class WorldMixin {
-
-	@Shadow
-	private BlockState getBlockState(BlockPos pos) {
-		return null;
-	}
+@Mixin(RedstoneWireBlock.class)
+public class RedstoneWireMixin {
 
 	@Inject(
 		at = @At("HEAD"),
-		method = "Lnet/minecraft/world/World;setBlockState(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/BlockState;I)Z"
+		method = "Lnet/minecraft/block/RedstoneWireBlock;connectsTo(Lnet/minecraft/block/BlockState;Lnet/minecraft/util/math/Direction;)Z",
+		cancellable = true
 	)
-	private void setBlockState(BlockPos pos, BlockState state, int flags, CallbackInfoReturnable<Boolean> info) {
-		MegaTntBlock.lastReplacedState = getBlockState(pos);
+	private static void connectsTo(BlockState state, @Nullable Direction dir, CallbackInfoReturnable<Boolean> info) {
+		if (state.isOf(Main.BENT_REPEATER_BLOCK)) {
+			Direction direction = state.get(BentRepeaterBlock.FACING);
+			info.setReturnValue(direction.getOpposite() == dir || Main.BENT_REPEATER_BLOCK.getOutput(state) == dir);
+		}
 	}
 }

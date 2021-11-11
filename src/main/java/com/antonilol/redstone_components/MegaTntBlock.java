@@ -68,12 +68,11 @@ public class MegaTntBlock extends TntBlock {
 			(state.get(REL_Z) << 2);
 	}
 
-	public MegaTntBlock(Settings settings) {
+	protected MegaTntBlock(Settings settings) {
 		super(settings);
 
 		setDefaultState(
-			stateManager.getDefaultState()
-			.with(UNSTABLE, false)
+			getDefaultState()
 			.with(REL_X, 0)
 			.with(REL_Y, 0)
 			.with(REL_Z, 0)

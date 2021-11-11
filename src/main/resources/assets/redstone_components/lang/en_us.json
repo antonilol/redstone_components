@@ -3,6 +3,7 @@
 	"block.redstone_components.configurable_redstone_block": "Configurable Redstone Block",
 	"block.redstone_components.configurable_tnt": "Configurable TNT",
 	"block.redstone_components.mega_tnt": "Mega TNT",
+	"block.redstone_components.bent_repeater": "Bent Repeater",
 	"entity.redstone_components.configurable_tnt": "Configurable TNT",
 	"entity.redstone_components.mega_tnt": "Mega TNT"
 }
