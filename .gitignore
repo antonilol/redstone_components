@@ -11,4 +11,5 @@ run/
 *.iml
 *.ipr
 *.iws
+*.launch
 
