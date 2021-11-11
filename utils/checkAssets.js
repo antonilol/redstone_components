@@ -162,6 +162,8 @@ walk(assets, (err, res) => {
 
 	if (ok) {
 		console.log(color(1, 32) + 'Looks all good!' + color(0));
+	} else {
+		process.exit(1);
 	}
 });
 
