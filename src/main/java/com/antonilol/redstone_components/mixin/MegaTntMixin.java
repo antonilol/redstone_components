@@ -28,9 +28,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import com.antonilol.redstone_components.MegaTntBlock;
+import com.antonilol.redstone_components.Main;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.TntBlock;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.BlockPos;
@@ -45,10 +44,9 @@ public class MegaTntMixin {
 		cancellable = true
 	)
 	private static void primeMegaTnt(World world, BlockPos pos, @Nullable LivingEntity igniter, CallbackInfo info) {
-		Block block = world.getBlockState(pos).getBlock();
-		if (block instanceof MegaTntBlock) {
+		if (world.getBlockState(pos).isOf(Main.MEGA_TNT_BLOCK)) {
 			if (!world.isClient) {
-				((MegaTntBlock) block).primeMegaTnt(world, pos, igniter);
+				Main.MEGA_TNT_BLOCK.primeMegaTnt(world, pos, igniter);
 			}
 
 			info.cancel();

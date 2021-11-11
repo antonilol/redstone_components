@@ -28,7 +28,6 @@ import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
-import net.minecraft.block.Block;
 import net.minecraft.block.MapColor;
 import net.minecraft.block.Material;
 import net.minecraft.block.entity.BlockEntityType;
@@ -51,7 +50,7 @@ public class Main implements ModInitializer {
 
 	public static final String BENT_REPEATER_NAME = "bent_repeater";
 
-	public static final Block CONFIGURABLE_REDSTONE_BLOCK = new ConfigurableRedstoneBlock(
+	public static final ConfigurableRedstoneBlock CONFIGURABLE_REDSTONE_BLOCK = new ConfigurableRedstoneBlock(
 		FabricBlockSettings.of(Material.METAL, MapColor.BRIGHT_RED)
 		.requiresTool()
 		.strength(5.0F, 6.0F)
@@ -60,7 +59,7 @@ public class Main implements ModInitializer {
 
 	public static final String CONFIGURABLE_REDSTONE_BLOCK_NAME = "configurable_redstone_block";
 
-	public static final Block CONFIGURABLE_TNT_BLOCK = new ConfigurableTntBlock(
+	public static final ConfigurableTntBlock CONFIGURABLE_TNT_BLOCK = new ConfigurableTntBlock(
 		FabricBlockSettings.of(Material.TNT)
 		.breakInstantly()
 		.sounds(BlockSoundGroup.GRASS)
@@ -70,7 +69,7 @@ public class Main implements ModInitializer {
 
 	public static EntityType<ConfigurableTntEntity> CONFIGURABLE_TNT_ENTITY;
 
-	public static final Block MEGA_TNT_BLOCK = new MegaTntBlock(
+	public static final MegaTntBlock MEGA_TNT_BLOCK = new MegaTntBlock(
 		FabricBlockSettings.of(Material.TNT)
 		.breakInstantly()
 		.sounds(BlockSoundGroup.GRASS)
@@ -80,7 +79,7 @@ public class Main implements ModInitializer {
 
 	public static final String MEGA_TNT_NAME = "mega_tnt";
 
-	public static final Block MEMORY_CELL_BLOCK = new MemoryCellBlock(
+	public static final MemoryCellBlock MEMORY_CELL_BLOCK = new MemoryCellBlock(
 		FabricBlockSettings.of(Material.DECORATION)
 		.breakInstantly()
 		.sounds(BlockSoundGroup.WOOD)
@@ -92,7 +91,7 @@ public class Main implements ModInitializer {
 
 	public static final String MOD_ID = "redstone_components";
 
-	public static final Block SMALL_MEMORY_CELL_BLOCK = new SmallMemoryCellBlock(
+	public static final SmallMemoryCellBlock SMALL_MEMORY_CELL_BLOCK = new SmallMemoryCellBlock(
 		FabricBlockSettings.of(Material.DECORATION)
 		.breakInstantly()
 		.sounds(BlockSoundGroup.WOOD)
