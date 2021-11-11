@@ -1,0 +1,9 @@
+#!/bin/bash
+
+ver=$(cat gradle.properties | grep mod_version | sed 's/.*= //')
+
+# remove older installed versions
+rm ~/.minecraft/mods/redstone_components*
+
+cp "build/libs/redstone_components-$ver.jar" ~/.minecraft/mods/
+

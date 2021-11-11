@@ -1,0 +1,8 @@
+#!/bin/bash
+
+utils/jsonStyle.js
+
+utils/whitespaceFix
+
+utils/checkAssets.js
+
