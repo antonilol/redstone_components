@@ -27,16 +27,13 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: ${{ matrix.java }}
-      - name: make gradle wrapper executable
-        if: ${{ runner.os != 'Windows' }}
-        run: chmod +x ./gradlew
+#     - name: make gradle wrapper executable
+#       if: ${{ runner.os != 'Windows' }}
+#       run: chmod +x ./gradlew
       - name: build
         run: ./gradlew build
-      - name: capture build artifacts
-        if: ${{ runner.os == 'Linux' && matrix.java == '16' }} # Only upload artifacts built from latest java on one OS
-        uses: actions/upload-artifact@v2
-        with:
-          name: Artifacts
-          path: build/libs/
+      - name: check assets
+        if: ${{ runner.os == 'Linux' }}
+        run: utils/checkAssets.js
 
 #  vim: set ts=2 sw=2 tw=0 et :
