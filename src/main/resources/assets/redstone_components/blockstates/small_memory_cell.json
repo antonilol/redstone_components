@@ -1,0 +1,34 @@
+{
+	"variants": {
+		"facing=east,mode=read": {
+			"y": 270,
+			"model": "redstone_components:block/small_memory_cell_read"
+		},
+		"facing=east,mode=write": {
+			"y": 270,
+			"model": "redstone_components:block/small_memory_cell_write"
+		},
+		"facing=north,mode=read": {
+			"y": 180,
+			"model": "redstone_components:block/small_memory_cell_read"
+		},
+		"facing=north,mode=write": {
+			"y": 180,
+			"model": "redstone_components:block/small_memory_cell_write"
+		},
+		"facing=south,mode=read": {
+			"model": "redstone_components:block/small_memory_cell_read"
+		},
+		"facing=south,mode=write": {
+			"model": "redstone_components:block/small_memory_cell_write"
+		},
+		"facing=west,mode=read": {
+			"y": 90,
+			"model": "redstone_components:block/small_memory_cell_read"
+		},
+		"facing=west,mode=write": {
+			"y": 90,
+			"model": "redstone_components:block/small_memory_cell_write"
+		}
+	}
+}

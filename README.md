@@ -15,7 +15,7 @@ If not, create it.
 
 New blocks added by this mod:
 - Memory Cell
-- *Small Memory Cell (incomplete: blockstates, models, textures)*
+- Small Memory Cell
 - Configurable Redstone Block
 - Mega TNT (bugged: ignites multiple times with redstone)
 - *Configurable TNT (incomplete)*

@@ -1,0 +1,22 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"RT ",
+		"TSS",
+		" S "
+	],
+	"key": {
+		"S": {
+			"item": "minecraft:smooth_stone"
+		},
+		"R": {
+			"item": "minecraft:redstone"
+		},
+		"T": {
+			"item": "minecraft:redstone_torch"
+		}
+	},
+	"result": {
+		"item": "redstone_components:curved_repeater"
+	}
+}
