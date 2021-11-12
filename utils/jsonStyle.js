@@ -25,6 +25,31 @@
 const fs = require('fs');
 const { walk } = require('./recursiveList');
 
+function padRight(str, len, chr) {
+	return (str + chr.repeat(len)).slice(len);
+}
+
+function stringifyModel(json, indent=0, pretty=1) {
+	const t = typeof json;
+	if (t === 'object') {
+		if (Array.isArray(json)) {
+			if (json.length < 8 && json.filter(x => typeof x === 'number')) {
+				return '[ ' + json.join(', ') + ' ]';
+			} else {
+				return '\t'.repeat(indent) + json.map(x => stringifyModel(json, indent + 1)).join('\n' + '\t'.repeat(indent));
+			}
+		} else {
+			const entries = Object.entries(json);
+			if (typeof json.faces === 'object') {
+				return entries.map(x => padRight(JSON.stringify(x[0]) + ':', 9, ' ') + stringifyModel(x[1], 0, 0)).join(', ');
+			} else {
+				return entries.map(x => JSON.stringify(x[0]) + ': ' + stringifyModel(x[1], indent + 1, pretty)).join(', ' + '\t'.repeat(indent * pretty));
+			}
+		}
+	}
+	return JSON.stringify(json);
+}
+
 walk('src', (err, res) => {
 	if (err) {
 		throw err;
@@ -33,8 +58,13 @@ walk('src', (err, res) => {
 	const json = res.filter(f => f.endsWith('.json'));
 
 	json.forEach(file => {
-		const oldJSON = fs.readFileSync(file).toString('utf-8');
-		const newJSON = JSON.stringify(JSON.parse(oldJSON), null, '\t') + '\n';
+		const oldJSON = JSON.parse(fs.readFileSync(file).toString('utf-8'));
+		var newJSON;
+		if (Array.isArray(oldJSON.elements)) {
+			newJSON = stringifyModel(oldJSON);
+		} else {
+			newJSON = JSON.stringify(oldJSON, null, '\t') + '\n';
+		}
 
 		fs.writeFileSync(file, newJSON);
 	});
