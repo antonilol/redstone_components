@@ -1,5 +1,4 @@
 {
-	"credit": "Made with Blockbench",
 	"parent": "minecraft:block/block",
 	"textures": {
 		"top": "minecraft:block/tnt_top",
