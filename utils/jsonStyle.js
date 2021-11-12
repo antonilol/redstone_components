@@ -66,10 +66,10 @@ walk('src', (err, res) => {
 		if (Array.isArray(oldJSON.elements)) {
 			newJSON = stringifyModel(oldJSON);
 		} else {
-			newJSON = JSON.stringify(oldJSON, null, '\t') + '\n';
+			newJSON = JSON.stringify(oldJSON, null, '\t');
 		}
 
-		fs.writeFileSync(file, newJSON);
+		fs.writeFileSync(file, newJSON + '\n');
 	});
 });
 
