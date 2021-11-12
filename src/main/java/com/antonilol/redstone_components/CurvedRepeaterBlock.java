@@ -62,9 +62,9 @@ public class CurvedRepeaterBlock extends RepeaterBlock {
 		}
 	}
 
-	public static final EnumProperty<Output> OUTPUT = EnumProperty.of("output", Output.class);
-	
 	public static final String NAME = "curved_repeater";
+
+	public static final EnumProperty<Output> OUTPUT = EnumProperty.of("output", Output.class);
 
 	protected CurvedRepeaterBlock(Settings settings) {
 		super(settings);
@@ -115,6 +115,6 @@ public class CurvedRepeaterBlock extends RepeaterBlock {
 	protected void updateTarget(World world, BlockPos pos, BlockState state) {
 		BlockPos outputPos = pos.offset(getOutput(state.with(FACING, state.get(FACING).getOpposite())));
 		world.updateNeighbor(outputPos, this, pos);
-		world.updateNeighborsExcept(outputPos, this, state.get(FACING));
+		world.updateNeighborsExcept(outputPos, this, getOutput(state));
 	}
 }

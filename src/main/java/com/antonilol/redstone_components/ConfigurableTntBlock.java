@@ -90,7 +90,7 @@ public class ConfigurableTntBlock extends TntBlock {
 	}
 
 	public static final EnumProperty<ExplosionPower> EXPLOSION_POWER = EnumProperty.of("explosion_power", ExplosionPower.class);
-	
+
 	public static final String NAME = "configurable_tnt";
 
 	protected ConfigurableTntBlock(Settings settings) {

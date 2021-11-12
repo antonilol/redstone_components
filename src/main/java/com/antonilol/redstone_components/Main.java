@@ -87,7 +87,7 @@ public class Main implements ModInitializer {
 
 	public static BlockEntityType<SmallMemoryCellBlockEntity> SMALL_MEMORY_CELL_BLOCK_ENTITY;
 
-	
+
 	public static final String MOD_ID = "redstone_components";
 
 	public static final String VERSION = "1.0.2"; // updated by updateVersion script with sed :)
