@@ -1,0 +1,22 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"RNR",
+		"SSS"
+	],
+	"key": {
+		"S": {
+			"item": "minecraft:smooth_stone"
+		},
+		"R": {
+			"item": "minecraft:redstone"
+		},
+		"N": {
+			"item": "minecraft:netherite_scrap"
+		}
+	},
+	"result": {
+		"item": "redstone_components:small_memory_cell",
+		"count": 2
+	}
+}

@@ -42,14 +42,6 @@ import net.minecraft.util.registry.Registry;
 
 public class Main implements ModInitializer {
 
-	public static final CurvedRepeaterBlock CURVED_REPEATER_BLOCK = new CurvedRepeaterBlock(
-		FabricBlockSettings.of(Material.DECORATION)
-		.breakInstantly()
-		.sounds(BlockSoundGroup.WOOD)
-	);
-
-	public static final String CURVED_REPEATER_NAME = "curved_repeater";
-
 	public static final ConfigurableRedstoneBlock CONFIGURABLE_REDSTONE_BLOCK = new ConfigurableRedstoneBlock(
 		FabricBlockSettings.of(Material.METAL, MapColor.BRIGHT_RED)
 		.requiresTool()
@@ -68,6 +60,14 @@ public class Main implements ModInitializer {
 	public static final String CONFIGURABLE_TNT_BLOCK_NAME = "configurable_tnt";
 
 	public static EntityType<ConfigurableTntEntity> CONFIGURABLE_TNT_ENTITY;
+
+	public static final CurvedRepeaterBlock CURVED_REPEATER_BLOCK = new CurvedRepeaterBlock(
+		FabricBlockSettings.of(Material.DECORATION)
+		.breakInstantly()
+		.sounds(BlockSoundGroup.WOOD)
+	);
+
+	public static final String CURVED_REPEATER_NAME = "curved_repeater";
 
 	public static final MegaTntBlock MEGA_TNT_BLOCK = new MegaTntBlock(
 		FabricBlockSettings.of(Material.TNT)
@@ -138,20 +138,20 @@ public class Main implements ModInitializer {
 		);
 
 		// configurable tnt
-//		Registry.register(Registry.BLOCK, new Identifier(MOD_ID, CONFIGURABLE_TNT_BLOCK_NAME), CONFIGURABLE_TNT_BLOCK);
-//		Registry.register(
-//			Registry.ITEM, new Identifier(MOD_ID, CONFIGURABLE_TNT_BLOCK_NAME),
-//			new BlockItem(CONFIGURABLE_TNT_BLOCK, new FabricItemSettings().group(ItemGroup.REDSTONE))
-//		);
-//		CONFIGURABLE_TNT_ENTITY = Registry.register(
-//			Registry.ENTITY_TYPE, new Identifier(MOD_ID, CONFIGURABLE_TNT_BLOCK_NAME),
-//			FabricEntityTypeBuilder.create(SpawnGroup.MISC, ConfigurableTntEntity::new)
-//			.fireImmune()
-//			.dimensions(EntityDimensions.fixed(0.98F, 0.98F))
-//			.trackRangeBlocks(10)
-//			.trackedUpdateRate(10)
-//			.build()
-//		);
+		Registry.register(Registry.BLOCK, new Identifier(MOD_ID, CONFIGURABLE_TNT_BLOCK_NAME), CONFIGURABLE_TNT_BLOCK);
+		Registry.register(
+			Registry.ITEM, new Identifier(MOD_ID, CONFIGURABLE_TNT_BLOCK_NAME),
+			new BlockItem(CONFIGURABLE_TNT_BLOCK, new FabricItemSettings().group(ItemGroup.REDSTONE))
+		);
+		CONFIGURABLE_TNT_ENTITY = Registry.register(
+			Registry.ENTITY_TYPE, new Identifier(MOD_ID, CONFIGURABLE_TNT_BLOCK_NAME),
+			FabricEntityTypeBuilder.create(SpawnGroup.MISC, ConfigurableTntEntity::new)
+			.fireImmune()
+			.dimensions(EntityDimensions.fixed(0.98F, 0.98F))
+			.trackRangeBlocks(10)
+			.trackedUpdateRate(10)
+			.build()
+		);
 
 		// mega tnt
 		Registry.register(Registry.BLOCK, new Identifier(MOD_ID, MEGA_TNT_NAME), MEGA_TNT_BLOCK);
