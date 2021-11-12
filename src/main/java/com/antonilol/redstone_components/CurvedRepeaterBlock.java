@@ -39,7 +39,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
 
-public class BentRepeaterBlock extends RepeaterBlock {
+public class CurvedRepeaterBlock extends RepeaterBlock {
 
 	public static enum Output implements StringIdentifiable {
 		LEFT("left"),
@@ -64,7 +64,7 @@ public class BentRepeaterBlock extends RepeaterBlock {
 
 	public static final EnumProperty<Output> OUTPUT = EnumProperty.of("output", Output.class);
 
-	protected BentRepeaterBlock(Settings settings) {
+	protected CurvedRepeaterBlock(Settings settings) {
 		super(settings);
 
 		setDefaultState(

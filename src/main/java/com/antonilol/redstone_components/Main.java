@@ -42,13 +42,13 @@ import net.minecraft.util.registry.Registry;
 
 public class Main implements ModInitializer {
 
-	public static final BentRepeaterBlock BENT_REPEATER_BLOCK = new BentRepeaterBlock(
+	public static final CurvedRepeaterBlock CURVED_REPEATER_BLOCK = new CurvedRepeaterBlock(
 		FabricBlockSettings.of(Material.DECORATION)
 		.breakInstantly()
 		.sounds(BlockSoundGroup.WOOD)
 	);
 
-	public static final String BENT_REPEATER_NAME = "bent_repeater";
+	public static final String CURVED_REPEATER_NAME = "curved_repeater";
 
 	public static final ConfigurableRedstoneBlock CONFIGURABLE_REDSTONE_BLOCK = new ConfigurableRedstoneBlock(
 		FabricBlockSettings.of(Material.METAL, MapColor.BRIGHT_RED)
@@ -169,11 +169,11 @@ public class Main implements ModInitializer {
 			.build()
 		);
 
-		// bent repeater
-		Registry.register(Registry.BLOCK, new Identifier(MOD_ID, BENT_REPEATER_NAME), BENT_REPEATER_BLOCK);
+		// curved repeater
+		Registry.register(Registry.BLOCK, new Identifier(MOD_ID, CURVED_REPEATER_NAME), CURVED_REPEATER_BLOCK);
 		Registry.register(
-			Registry.ITEM, new Identifier(MOD_ID, BENT_REPEATER_NAME),
-			new BlockItem(BENT_REPEATER_BLOCK, new FabricItemSettings().group(ItemGroup.REDSTONE))
+			Registry.ITEM, new Identifier(MOD_ID, CURVED_REPEATER_NAME),
+			new BlockItem(CURVED_REPEATER_BLOCK, new FabricItemSettings().group(ItemGroup.REDSTONE))
 		);
 	}
 }

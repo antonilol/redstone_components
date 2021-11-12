@@ -19,7 +19,7 @@ New blocks added by this mod:
 - Configurable Redstone Block
 - Mega TNT (bugged: ignites multiple times with redstone)
 - *Configurable TNT (incomplete)*
-- *Bent Repeater (incomplete: blockstates, models, textures)*
+- *Curved Repeater (incomplete: blockstates, models, textures)*
 - Probable more in the future...
 
 ## Compiling

@@ -28,7 +28,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import com.antonilol.redstone_components.BentRepeaterBlock;
+import com.antonilol.redstone_components.CurvedRepeaterBlock;
 import com.antonilol.redstone_components.Main;
 
 import net.minecraft.block.BlockState;
@@ -44,9 +44,9 @@ public class RedstoneWireMixin {
 		cancellable = true
 	)
 	private static void connectsTo(BlockState state, @Nullable Direction dir, CallbackInfoReturnable<Boolean> info) {
-		if (state.isOf(Main.BENT_REPEATER_BLOCK)) {
-			Direction direction = state.get(BentRepeaterBlock.FACING);
-			info.setReturnValue(direction.getOpposite() == dir || Main.BENT_REPEATER_BLOCK.getOutput(state) == dir);
+		if (state.isOf(Main.CURVED_REPEATER_BLOCK)) {
+			Direction direction = state.get(CurvedRepeaterBlock.FACING);
+			info.setReturnValue(direction.getOpposite() == dir || Main.CURVED_REPEATER_BLOCK.getOutput(state) == dir);
 		}
 	}
 }
