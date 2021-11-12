@@ -26,25 +26,28 @@ const fs = require('fs');
 const { walk } = require('./recursiveList');
 
 function padRight(str, len, chr) {
-	return (str + chr.repeat(len)).slice(len);
+	return (str + chr.repeat(len)).slice(0, len);
 }
 
-function stringifyModel(json, indent=0, pretty=1) {
-	const t = typeof json;
-	if (t === 'object') {
+function stringifyModel(json, indent=0, pretty=1, face=0) {
+	const nextFace = typeof json.faces === 'object';
+	if (typeof json === 'object') {
 		if (Array.isArray(json)) {
-			if (json.length < 8 && json.filter(x => typeof x === 'number')) {
+			if (json.length <= 8 && json.filter(x => typeof x === 'number').length) {
 				return '[ ' + json.join(', ') + ' ]';
-			} else {
-				return '\t'.repeat(indent) + json.map(x => stringifyModel(json, indent + 1)).join('\n' + '\t'.repeat(indent));
 			}
+			return '[\n' + '\t'.repeat(indent + 1) + json.map(x => stringifyModel(x, indent + 1)).join(',\n' + '\t'.repeat(indent + 1)) + '\n' + '\t'.repeat(indent) + ']';
 		} else {
 			const entries = Object.entries(json);
-			if (typeof json.faces === 'object') {
-				return entries.map(x => padRight(JSON.stringify(x[0]) + ':', 9, ' ') + stringifyModel(x[1], 0, 0)).join(', ');
-			} else {
-				return entries.map(x => JSON.stringify(x[0]) + ': ' + stringifyModel(x[1], indent + 1, pretty)).join(', ' + '\t'.repeat(indent * pretty));
+			if (face == 2) {
+				return '{ ' + entries.map(x => JSON.stringify(x[0]) + ': ' + stringifyModel(x[1], 0, 0)).join(', ') + ' }';
 			}
+			return  (pretty ? '{\n' + '\t'.repeat(indent + 1) : '{ ') +
+					entries.map(x => {
+						const k = JSON.stringify(x[0]) + ': ';
+						return (face || nextFace ? padRight(k, 8 + face, ' ') : k) + stringifyModel(x[1], indent + 1, pretty, face == 1 ? 2 : nextFace)
+					}).join(pretty ? ',\n' + '\t'.repeat(indent + 1) : ', ') +
+					(pretty ? '\n' + '\t'.repeat(indent) + '}' : ' }');
 		}
 	}
 	return JSON.stringify(json);
