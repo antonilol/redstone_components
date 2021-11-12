@@ -7,6 +7,8 @@ import net.minecraft.world.World;
 
 public class SmallMemoryCellBlock extends MemoryCellBlock {
 
+	public static final String NAME = "small_memory_cell";
+
 	protected SmallMemoryCellBlock(Settings settings) {
 		super(settings);
 	}

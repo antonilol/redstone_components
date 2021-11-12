@@ -53,6 +53,8 @@ public class ConfigurableRedstoneBlock extends RedstoneBlock {
 		}
 	}
 
+	public static final String NAME = "configurable_redstone_block";
+
 	protected ConfigurableRedstoneBlock(Settings settings) {
 		super(settings);
 

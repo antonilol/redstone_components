@@ -68,6 +68,8 @@ public class MegaTntBlock extends TntBlock {
 			(state.get(REL_Z) << 2);
 	}
 
+	public static final String NAME = "mega_tnt";
+
 	protected MegaTntBlock(Settings settings) {
 		super(settings);
 

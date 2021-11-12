@@ -65,6 +65,8 @@ public class MemoryCellBlock extends AbstractRedstoneGateBlock implements BlockE
 
 	protected int address;
 
+	public static final String NAME = "memory_cell";
+
 	protected MemoryCellBlock(Settings settings) {
 		super(settings);
 

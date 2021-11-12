@@ -63,6 +63,8 @@ public class CurvedRepeaterBlock extends RepeaterBlock {
 	}
 
 	public static final EnumProperty<Output> OUTPUT = EnumProperty.of("output", Output.class);
+	
+	public static final String NAME = "curved_repeater";
 
 	protected CurvedRepeaterBlock(Settings settings) {
 		super(settings);
