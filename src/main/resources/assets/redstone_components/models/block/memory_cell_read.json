@@ -2,6 +2,6 @@
 	"parent": "redstone_components:block/memory_cell",
 	"ambientocclusion": false,
 	"textures": {
-		"mem": "redstone_components:block/storage_cell_top_read"
+		"mem": "redstone_components:block/memory_cell_top_read"
 	}
 }
