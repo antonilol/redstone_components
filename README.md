@@ -18,8 +18,8 @@ New blocks added by this mod:
 - Small Memory Cell
 - Configurable Redstone Block
 - Mega TNT (bugged: ignites multiple times with redstone)
+- Curved Repeater (incomplete: item model, parts of block model)
 - *Configurable TNT (incomplete)*
-- *Curved Repeater (incomplete: blockstates, models, textures)*
 - Probable more in the future...
 
 ## Compiling
