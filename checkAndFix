@@ -1,8 +1,8 @@
 #!/bin/bash
 
-utils/jsonStyle.js
+ls -F utils | grep '*$' | sed 's/.$//' | while read u
+do
+	utils/"$u";
+done
 
-utils/whitespaceFix
-
-utils/checkAssets.js
-
+# vim: set ts=4 sw=4 tw=0 noet :
