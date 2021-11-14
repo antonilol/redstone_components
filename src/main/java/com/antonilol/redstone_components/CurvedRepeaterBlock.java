@@ -22,10 +22,13 @@
 
 package com.antonilol.redstone_components;
 
+import org.jetbrains.annotations.Nullable;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.RepeaterBlock;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateManager.Builder;
 import net.minecraft.state.property.EnumProperty;
 import net.minecraft.util.ActionResult;
@@ -34,6 +37,7 @@ import net.minecraft.util.StringIdentifiable;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.Direction.Axis;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
@@ -94,6 +98,20 @@ public class CurvedRepeaterBlock extends RepeaterBlock {
 			return state.get(FACING).rotateYClockwise();
 		}
 		return state.get(FACING).rotateYCounterclockwise();
+	}
+
+	@Override
+	public @Nullable BlockState getPlacementState(ItemPlacementContext ctx) {
+		BlockState state = super.getPlacementState(ctx);
+		Direction[] dirs = ctx.getPlacementDirections();
+
+		return state.with(
+			OUTPUT,
+			state.get(FACING).rotateYClockwise() ==
+			dirs[dirs[2].getAxis() == Axis.Y ? 1 : 2] ?
+				Output.LEFT :
+				Output.RIGHT
+		);
 	}
 
 	@Override
