@@ -4,9 +4,9 @@
 		"particle": "minecraft:block/repeater_on",
 		"slab": "minecraft:block/smooth_stone",
 		"right_on": "redstone_components:block/curved_repeater_right_on",
-		"right_off": "redstone_components:block/curved_repeater_right_off",
+		"right_off": "redstone_components:block/curved_repeater_right",
 		"left_on": "redstone_components:block/curved_repeater_left_on",
-		"left_off": "redstone_components:block/curved_repeater_left_off",
+		"left_off": "redstone_components:block/curved_repeater_left",
 		"lit": "minecraft:block/redstone_torch",
 		"unlit": "minecraft:block/redstone_torch_off",
 		"lock": "minecraft:block/bedrock"
