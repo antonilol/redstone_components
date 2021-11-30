@@ -35,16 +35,16 @@ or download the [zip](https://github.com/antonilol/redstone_components/archive/r
 
 Enter the folder (`cd` or double click).
 
-If you downloaded the zip make `gradlew` executable.
-
-```bash
-chmod +x gradlew
-```
-
 And finally, compile.
 
 ```bash
 ./gradlew build
+```
+
+If it says `bash: ./gradlew: Permission denied`, make `gradlew` executable.
+
+```bash
+chmod +x gradlew
 ```
 
 #### Windows
