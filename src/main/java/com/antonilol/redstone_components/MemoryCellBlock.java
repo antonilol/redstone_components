@@ -134,14 +134,14 @@ public class MemoryCellBlock extends AbstractRedstoneGateBlock implements BlockE
 	public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean notify) {
 		super.onBlockAdded(state, world, pos, oldState, notify);
 
-		world.getBlockTickScheduler().schedule(pos, this, getUpdateDelayInternal(state));
+		world.createAndScheduleBlockTick(pos, this, getUpdateDelayInternal(state));
 	}
 
 	@Override
 	public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
 		super.onStateReplaced(state, world, pos, newState, moved);
 
-		world.getBlockTickScheduler().schedule(pos, this, getUpdateDelayInternal(state));
+		world.createAndScheduleBlockTick(pos, this, getUpdateDelayInternal(state));
 	}
 
 	@Override
@@ -166,6 +166,6 @@ public class MemoryCellBlock extends AbstractRedstoneGateBlock implements BlockE
 			}
 		}
 
-		world.getBlockTickScheduler().schedule(pos, this, getUpdateDelayInternal(state));
+		world.createAndScheduleBlockTick(pos, this, getUpdateDelayInternal(state));
 	}
 }

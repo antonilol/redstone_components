@@ -82,11 +82,9 @@ public class MemoryCellBlockEntity extends BlockEntity {
 	}
 
 	@Override
-	public NbtCompound writeNbt(NbtCompound tag) {
+	public void writeNbt(NbtCompound tag) {
 		super.writeNbt(tag);
 
 		tag.putByteArray(MEMORY_TAG_NAME, memory);
-
-		return tag;
 	}
 }
