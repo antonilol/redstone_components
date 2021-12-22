@@ -16,8 +16,8 @@ jobs:
         java-version: 17
     - name: build
       run: |
-      ./gradlew build
-      ver=$(cat gradle.properties | grep mod_version | sed 's/.*= //')
+        ./gradlew build
+        ver=$(cat gradle.properties | grep mod_version | sed 's/.*= //')
     - name: upload jar file
       uses: svenstaro/upload-release-action@v2
       with:
