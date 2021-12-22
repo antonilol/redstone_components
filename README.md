@@ -1,4 +1,4 @@
-[![Build](https://github.com/antonilol/redstone_components/actions/workflows/build.yml/badge.svg)](https://github.com/antonilol/redstone_components/actions/workflows/build.yml)
+[![Build](https://github.com/antonilol/redstone_components/actions/workflows/push.yml/badge.svg)](https://github.com/antonilol/redstone_components/actions/workflows/push.yml)
 
 # Redstone Components
 
@@ -66,4 +66,3 @@ More on that [here](https://fabricmc.net/wiki/tutorial:setup).
 ## License
 
 MIT
-
