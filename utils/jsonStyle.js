@@ -45,7 +45,7 @@ function stringifyModel(json, indent=0, pretty=1, face=0) {
 			return  (pretty ? '{\n' + '\t'.repeat(indent + 1) : '{ ') +
 					entries.map(x => {
 						const k = JSON.stringify(x[0]) + ': ';
-						return (face || nextFace ? padRight(k, 8 + face, ' ') : k) + stringifyModel(x[1], indent + 1, pretty, face == 1 ? 2 : nextFace)
+						return (face || nextFace ? padRight(k, 8 + (x[0] == 'faces') + face, ' ') : k) + stringifyModel(x[1], indent + 1, pretty, face == 1 ? 2 : nextFace)
 					}).join(pretty ? ',\n' + '\t'.repeat(indent + 1) : ', ') +
 					(pretty ? '\n' + '\t'.repeat(indent) + '}' : ' }');
 		}
