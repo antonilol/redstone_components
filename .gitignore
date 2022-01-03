@@ -1,7 +1,6 @@
 bin/
 build/
-run/*
-!run/tmp_world.dat
+run/
 
 .idea/
 .gradle/
