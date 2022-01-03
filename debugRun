@@ -1,9 +1,0 @@
-#!/bin/bash
-
-tmpworld='run/saves/temporary world'
-rm -r "$tmpworld"
-mkdir -p "$tmpworld"
-cp run/tmp_world.dat "$tmpworld/level.dat"
-
-./gradlew runClient | cat
-
