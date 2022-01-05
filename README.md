@@ -19,7 +19,6 @@ New blocks added by this mod:
 - Configurable Redstone Block
 - Curved Repeater
 - Mega TNT (bugged: ignites multiple times with redstone)
-- *Configurable TNT (incomplete)*
 - Probable more in the future...
 
 ## Compiling

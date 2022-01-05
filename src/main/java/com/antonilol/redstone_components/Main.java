@@ -49,14 +49,6 @@ public class Main implements ModInitializer {
 		.sounds(BlockSoundGroup.METAL)
 	);
 
-	public static final ConfigurableTntBlock CONFIGURABLE_TNT_BLOCK = new ConfigurableTntBlock(
-		FabricBlockSettings.of(Material.TNT)
-		.breakInstantly()
-		.sounds(BlockSoundGroup.GRASS)
-	);
-
-	public static EntityType<ConfigurableTntEntity> CONFIGURABLE_TNT_ENTITY;
-
 	public static final CurvedRepeaterBlock CURVED_REPEATER_BLOCK = new CurvedRepeaterBlock(
 		FabricBlockSettings.of(Material.DECORATION)
 		.breakInstantly()
@@ -123,22 +115,6 @@ public class Main implements ModInitializer {
 		Registry.register(
 			Registry.ITEM, new Identifier(MOD_ID, ConfigurableRedstoneBlock.NAME),
 			new BlockItem(CONFIGURABLE_REDSTONE_BLOCK, new FabricItemSettings().group(ItemGroup.REDSTONE))
-		);
-
-		// configurable tnt
-		Registry.register(Registry.BLOCK, new Identifier(MOD_ID, ConfigurableTntBlock.NAME), CONFIGURABLE_TNT_BLOCK);
-		Registry.register(
-			Registry.ITEM, new Identifier(MOD_ID, ConfigurableTntBlock.NAME),
-			new BlockItem(CONFIGURABLE_TNT_BLOCK, new FabricItemSettings().group(ItemGroup.REDSTONE))
-		);
-		CONFIGURABLE_TNT_ENTITY = Registry.register(
-			Registry.ENTITY_TYPE, new Identifier(MOD_ID, ConfigurableTntBlock.NAME),
-			FabricEntityTypeBuilder.create(SpawnGroup.MISC, ConfigurableTntEntity::new)
-			.fireImmune()
-			.dimensions(EntityDimensions.fixed(0.98F, 0.98F))
-			.trackRangeBlocks(10)
-			.trackedUpdateRate(10)
-			.build()
 		);
 
 		// mega tnt
