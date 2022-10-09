@@ -30,7 +30,7 @@ import net.minecraft.state.StateManager.Builder;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.IntProperty;
 import net.minecraft.state.property.Properties;
-import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
@@ -83,7 +83,7 @@ public class ConfigurableRedstoneBlock extends RedstoneBlock {
 		lastClickWorld = world;
 
 		if (locked) {
-			player.sendMessage(new LiteralText("This block is locked. Unlock it with /unlock or a debug stick"), true);
+			player.sendMessage(Text.of("This block is locked. Unlock it with /unlock or a debug stick"), true);
 		} else if (player.getAbilities().allowModifyWorld) {
 			world.setBlockState(pos, state.cycle(POWER));
 			return ActionResult.success(world.isClient);

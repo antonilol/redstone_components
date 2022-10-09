@@ -23,7 +23,7 @@
 package com.antonilol.redstone_components;
 
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
+import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
@@ -82,7 +82,7 @@ public class Main implements ModInitializer {
 
 	public static final String MOD_ID = "redstone_components";
 
-	public static final String VERSION = "1.2.1"; // updated by updateVersion script with sed :)
+	public static final String VERSION = "1.3.0"; // updated by updateVersion script with sed :)
 
 	@Override
 	public void onInitialize() {

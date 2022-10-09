@@ -28,14 +28,16 @@ import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 
-import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
+import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
+import net.minecraft.command.CommandRegistryAccess;
+import net.minecraft.server.command.CommandManager.RegistrationEnvironment;
 import net.minecraft.server.command.ServerCommandSource;
-import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 
 public class Commands implements CommandRegistrationCallback {
 
 	@Override
-	public void register(CommandDispatcher<ServerCommandSource> dispatcher, boolean dedicated) {
+	public void register(CommandDispatcher<ServerCommandSource> dispatcher, CommandRegistryAccess registryAccess, RegistrationEnvironment environment) {
 		LiteralArgumentBuilder<ServerCommandSource> lock =
 
 		literal("lock")
@@ -56,8 +58,8 @@ public class Commands implements CommandRegistrationCallback {
 
 		literal("version")
 		.executes(c -> {
-			c.getSource().sendFeedback(new LiteralText("redstone_components v" + Main.VERSION + " by Antoni Spaanderman"), false);
-			c.getSource().sendFeedback(new LiteralText("GitHub: https://github.com/antonilol/redstone_components"), false); // TODO is it possible to add a clickable link here?
+			c.getSource().sendFeedback(Text.of("redstone_components v" + Main.VERSION + " by Antoni Spaanderman"), false);
+			c.getSource().sendFeedback(Text.of("GitHub: https://github.com/antonilol/redstone_components"), false); // TODO is it possible to add a clickable link here?
 			return Command.SINGLE_SUCCESS;
 		});
 
