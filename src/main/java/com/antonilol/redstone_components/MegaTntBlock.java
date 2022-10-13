@@ -22,6 +22,8 @@
 
 package com.antonilol.redstone_components;
 
+import java.util.HashMap;
+
 import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.block.Block;
@@ -39,8 +41,8 @@ import net.minecraft.state.StateManager.Builder;
 import net.minecraft.state.property.IntProperty;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Direction.Axis;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldEvents;
 import net.minecraft.world.event.GameEvent;
@@ -87,9 +89,7 @@ public class MegaTntBlock extends TntBlock {
 		builder.add(REL_X, REL_Y, REL_Z);
 	}
 
-	public void breakBlocks(World world, BlockPos pos, BlockState state, @Nullable PlayerEntity player) {
-		BlockPos origin = getOrigin(pos, state);
-
+	private void breakMegaTnt(World world, BlockPos origin, @Nullable PlayerEntity player) {
 		for (int i = 0; i < 8; i++) {
 			int x =  i & 0b001;
 			int y = (i & 0b010) >> 1;
@@ -102,10 +102,8 @@ public class MegaTntBlock extends TntBlock {
 
 			BlockState blockState = world.getBlockState(offset);
 			if (blockState.isOf(this)) {
-				if (player == null) {
-					world.removeBlock(offset, false);
-				} else {
-					world.setBlockState(offset, Blocks.AIR.getDefaultState(), Block.NOTIFY_ALL);
+				world.setBlockState(offset, Blocks.AIR.getDefaultState());
+				if (player != null) {
 					world.syncWorldEvent(player, WorldEvents.BLOCK_BROKEN, offset, Block.getRawIdFromState(blockState));
 				}
 			}
@@ -189,7 +187,7 @@ public class MegaTntBlock extends TntBlock {
 
 	@Override
 	public void onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
-		breakBlocks(world, pos, state, player);
+		breakMegaTnt(world, getOrigin(pos, state), player);
 
 		super.onBreak(world, pos, state, player);
 	}
@@ -204,11 +202,15 @@ public class MegaTntBlock extends TntBlock {
 		}
 	}
 
+	private HashMap<BlockPos, Boolean> primed = new HashMap<BlockPos, Boolean>();
+
 	@Override
 	public void onPlaced(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack itemStack) {
 		super.onPlaced(world, pos, state, placer, itemStack);
 
 		BlockPos origin = getOrigin(pos, state);
+
+		primed.put(origin, false);
 
 		for (int i = 0; i < 8; i++) {
 			if (i == getRelIntPos(state)) {
@@ -229,28 +231,46 @@ public class MegaTntBlock extends TntBlock {
 				state
 				.with(REL_X, x)
 				.with(REL_Y, y)
-				.with(REL_Z, z),
-				Block.NOTIFY_ALL
+				.with(REL_Z, z)
 			);
 		}
+
+		if (primed.get(origin)) {
+			primeMegaTnt(world, origin, null, true);
+		}
+
+		primed.remove(origin);
 	}
 
 	public @Nullable MegaTntEntity primeMegaTnt(World world, BlockPos pos, @Nullable LivingEntity igniter) {
-		BlockState state = world.getBlockState(pos);
+		return primeMegaTnt(world, pos, igniter, false);
+	}
 
-		if (!state.isOf(this)) {
-			if (lastReplacedState == null) {
-				return null;
-			}
+	private @Nullable MegaTntEntity primeMegaTnt(World world, BlockPos pos, @Nullable LivingEntity igniter, boolean force) {
+		BlockPos origin;
 
-			state = lastReplacedState;
+		if (!force) {
+			BlockState state = world.getBlockState(pos);
 
 			if (!state.isOf(this)) {
+				state = lastReplacedState;
+				lastReplacedState = null;
+
+				if (state == null || !state.isOf(this)) {
+					return null;
+				}
+			}
+
+			origin = getOrigin(pos, state);
+
+			if (primed.get(origin) != null) {
+				primed.put(origin, true);
 				return null;
 			}
+		} else {
+			origin = pos;
 		}
 
-		BlockPos origin = getOrigin(pos, state);
 		Vec3d spawnPos = Vec3d.of(origin.add(1, 0, 1));
 
 		MegaTntEntity tnt = new MegaTntEntity(world, igniter);
@@ -263,7 +283,7 @@ public class MegaTntBlock extends TntBlock {
 		tnt.setVelocity(Math.cos(angle) * 0.02, 0.2, Math.sin(angle) * 0.02);
 		world.spawnEntity(tnt);
 
-		breakBlocks(world, pos, state, null);
+		breakMegaTnt(world, origin, null);
 
 		world.playSound(null, tnt.getX(), tnt.getY(), tnt.getZ(), SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0F, 1.0F);
 		world.emitGameEvent(igniter, GameEvent.PRIME_FUSE, pos);
