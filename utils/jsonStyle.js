@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /*
- * Copyright (c) 2021 Antoni Spaanderman
+ * Copyright (c) 2021 - 2022 Antoni Spaanderman
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,29 +25,70 @@
 const fs = require('fs');
 const { walk } = require('./recursiveList');
 
-function padRight(str, len, chr) {
-	return (str + chr.repeat(len)).slice(0, len);
-}
+const facingOrder = ['down', 'up', 'north', 'south', 'west', 'east'];
 
-function stringifyModel(json, indent=0, pretty=1, face=0) {
+function stringifyModel(json, parent, parent2, indent = 0, pretty = 1, face = 0) {
+	const newline = '\n' + '\t'.repeat(indent);
 	const nextFace = typeof json.faces === 'object';
 	if (typeof json === 'object') {
 		if (Array.isArray(json)) {
-			if (json.length <= 8 && json.filter(x => typeof x === 'number').length) {
-				return '[ ' + json.join(', ') + ' ]';
+			if (json.length <= 8 && json.every(x => typeof x === 'number')) {
+				return `[ ${json
+					.map((x, i) => {
+						const uv = Object.keys(parent).includes('uv');
+						let numPad = 1;
+						let decPad = 0;
+						for (const k in uv ? parent2 : parent) {
+							const v = uv ? parent2[k].uv : parent[k];
+							if (!Array.isArray(v) || typeof v[i] !== 'number') {
+								continue;
+							}
+							const [num, dec] = v[i].toString().split('.');
+							if (num.length > numPad) {
+								numPad = num.length;
+							}
+							if (dec && dec.length + 1 > decPad) {
+								decPad = dec.length + 1;
+							}
+						}
+						const sep = i + 1 == json.length ? '' : ', ';
+						const [num, dec] = x.toString().split('.');
+						return num.padStart(numPad, ' ') + (dec ? '.' + dec + sep : sep + ' '.repeat(decPad));
+					})
+					.join('')} ]`;
 			}
-			return '[\n' + '\t'.repeat(indent + 1) + json.map(x => stringifyModel(x, indent + 1)).join(',\n' + '\t'.repeat(indent + 1)) + '\n' + '\t'.repeat(indent) + ']';
+			return (
+				`[${newline}\t` +
+				json.map(x => stringifyModel(x, json, parent, indent + 1)).join(`,${newline}\t`) +
+				`${newline}]`
+			);
 		} else {
 			const entries = Object.entries(json);
 			if (face == 2) {
-				return '{ ' + entries.map(x => JSON.stringify(x[0]) + ': ' + stringifyModel(x[1], 0, 0)).join(', ') + ' }';
+				return (
+					'{ ' +
+					entries.map(x => JSON.stringify(x[0]) + ': ' + stringifyModel(x[1], json, parent, 0, 0)).join(', ') +
+					' }'
+				);
 			}
-			return  (pretty ? '{\n' + '\t'.repeat(indent + 1) : '{ ') +
-					entries.map(x => {
+			if (face) {
+				entries.sort((a, b) => facingOrder.indexOf(a[0]) - facingOrder.indexOf(b[0]));
+			}
+			return (
+				'{' +
+				(pretty ? newline + '\t' : ' ') +
+				entries
+					.map(x => {
 						const k = JSON.stringify(x[0]) + ': ';
-						return (face || nextFace ? padRight(k, 8 + (x[0] == 'faces') + face, ' ') : k) + stringifyModel(x[1], indent + 1, pretty, face == 1 ? 2 : nextFace)
-					}).join(pretty ? ',\n' + '\t'.repeat(indent + 1) : ', ') +
-					(pretty ? '\n' + '\t'.repeat(indent) + '}' : ' }');
+						return (
+							(face || nextFace ? k.padEnd(8 + (x[0] == 'faces') + face, ' ') : k) +
+							stringifyModel(x[1], json, parent, indent + 1, pretty, face == 1 ? 2 : nextFace)
+						);
+					})
+					.join(pretty ? `,${newline}\t` : ', ') +
+				(pretty ? newline : ' ') +
+				'}'
+			);
 		}
 	}
 	return JSON.stringify(json);
@@ -62,7 +103,7 @@ walk('src', (err, res) => {
 
 	json.forEach(file => {
 		const oldJSON = JSON.parse(fs.readFileSync(file).toString('utf-8'));
-		var newJSON;
+		let newJSON;
 		if (Array.isArray(oldJSON.elements)) {
 			newJSON = stringifyModel(oldJSON);
 		} else {
@@ -74,4 +115,3 @@ walk('src', (err, res) => {
 });
 
 // vim: set ts=4 sw=4 tw=0 noet :
-

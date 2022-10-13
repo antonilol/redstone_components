@@ -2,15 +2,15 @@
 	"parent": "redstone_components:block/curved_repeater",
 	"elements": [
 		{
-			"from": [ 0, 0, 0 ],
+			"from": [  0, 0,  0 ],
 			"to":   [ 16, 2, 16 ],
 			"faces": {
+				"down":  { "uv": [ 0,  0, 16, 16 ], "texture": "#slab", "cullface": "down" },
+				"up":    { "uv": [ 0,  0, 16, 16 ], "texture": "#right_on" },
 				"north": { "uv": [ 0, 14, 16, 16 ], "texture": "#slab", "cullface": "north" },
-				"east":  { "uv": [ 0, 14, 16, 16 ], "texture": "#slab", "cullface": "east" },
 				"south": { "uv": [ 0, 14, 16, 16 ], "texture": "#slab", "cullface": "south" },
 				"west":  { "uv": [ 0, 14, 16, 16 ], "texture": "#slab", "cullface": "west" },
-				"up":    { "uv": [ 0, 0, 16, 16 ], "texture": "#right_on" },
-				"down":  { "uv": [ 0, 0, 16, 16 ], "texture": "#slab", "cullface": "down" }
+				"east":  { "uv": [ 0, 14, 16, 16 ], "texture": "#slab", "cullface": "east" }
 			}
 		},
 		{
@@ -21,15 +21,15 @@
 			}
 		},
 		{
-			"from": [ 7, 2, 9 ],
+			"from": [ 7, 2,  9 ],
 			"to":   [ 9, 8, 13 ],
 			"faces": {
-				"east":  { "uv": [ 6, 5, 10, 11 ], "texture": "#lit" },
-				"west":  { "uv": [ 6, 5, 10, 11 ], "texture": "#lit" }
+				"west":  { "uv": [ 6, 5, 10, 11 ], "texture": "#lit" },
+				"east":  { "uv": [ 6, 5, 10, 11 ], "texture": "#lit" }
 			}
 		},
 		{
-			"from": [ 6, 2, 10 ],
+			"from": [  6, 2, 10 ],
 			"to":   [ 10, 8, 12 ],
 			"faces": {
 				"north": { "uv": [ 6, 5, 10, 11 ], "texture": "#lit" },
@@ -44,11 +44,11 @@
 			}
 		},
 		{
-			"from": [ 12, 2, 6 ],
+			"from": [ 12, 2,  6 ],
 			"to":   [ 14, 8, 10 ],
 			"faces": {
-				"east":  { "uv": [ 6, 5, 10, 11 ], "texture": "#lit" },
-				"west":  { "uv": [ 6, 5, 10, 11 ], "texture": "#lit" }
+				"west":  { "uv": [ 6, 5, 10, 11 ], "texture": "#lit" },
+				"east":  { "uv": [ 6, 5, 10, 11 ], "texture": "#lit" }
 			}
 		},
 		{

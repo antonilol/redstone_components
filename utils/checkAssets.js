@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /*
- * Copyright (c) 2021 Antoni Spaanderman
+ * Copyright (c) 2021 - 2022 Antoni Spaanderman
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -76,22 +76,24 @@ walk(assets, (err, res) => {
 		textures: []
 	};
 
-	res.map(f => f.slice(l)).forEach(f => {
-		const type = f.split('/')[5];
-		if (files[type]) {
-			const ns = f.split('/')[4];
-			files[type].push({ ns, path: f });
-		}
-	});
+	res
+		.map(f => f.slice(l))
+		.forEach(f => {
+			const type = f.split('/')[5];
+			if (files[type]) {
+				const ns = f.split('/')[4];
+				files[type].push({ ns, path: f });
+			}
+		});
 
-	var modelsNeeded = [];
+	let modelsNeeded = [];
 
 	files.blockstates.forEach(b => {
 		const c = JSON.parse(fs.readFileSync(b.path).toString('utf-8'));
-		modelsNeeded = modelsNeeded.concat(Object.values(c.variants).map(parseModel.bind(null, b.path)));
+		modelsNeeded.push(...Object.values(c.variants).map(parseModel.bind(null, b.path)));
 	});
 
-	var texturesNeeded = [];
+	let texturesNeeded = [];
 
 	files.models.forEach(m => {
 		const c = JSON.parse(fs.readFileSync(m.path).toString('utf-8'));
@@ -100,7 +102,11 @@ walk(assets, (err, res) => {
 		}
 
 		if (c.textures) {
-			texturesNeeded = texturesNeeded.concat(Object.values(c.textures).filter(x => !x.startsWith('#')).map(parseTexture.bind(null, m.path)));
+			texturesNeeded.push(
+				...Object.values(c.textures)
+					.filter(x => !x.startsWith('#'))
+					.map(parseTexture.bind(null, m.path))
+			);
 		}
 	});
 
@@ -108,7 +114,7 @@ walk(assets, (err, res) => {
 
 	files.textures.forEach(t => {
 		const tex = t.path.slice(assets.length + t.ns.length + 11);
-		const index = texturesNeeded.reduce((v, x, i) => x[0] == t.ns && x[1] + '.png' == tex ? i : v, -1);
+		const index = texturesNeeded.reduce((v, x, i) => (x[0] == t.ns && x[1] + '.png' == tex ? i : v), -1);
 
 		if (index == -1) {
 			unneededTextures.push(tex);
@@ -121,7 +127,7 @@ walk(assets, (err, res) => {
 
 	files.models.forEach(m => {
 		const model = m.path.slice(assets.length + m.ns.length + 9);
-		const index = modelsNeeded.reduce((v, x, i) => x[0] == m.ns && x[1] + '.json' == model ? i : v, -1);
+		const index = modelsNeeded.reduce((v, x, i) => (x[0] == m.ns && x[1] + '.json' == model ? i : v), -1);
 
 		if (index == -1) {
 			if (model.startsWith('block')) {
@@ -132,32 +138,40 @@ walk(assets, (err, res) => {
 		}
 	});
 
-	var ok = true;
+	let ok = true;
 
-	modelsNeeded.map(x => x.join(':')).filter((x, i, l) => x && l.indexOf(x) == i).forEach(m => {
-		// how to check existance of 'minecraft:' models?
-		if (m.split(':')[0] != 'minecraft') {
+	modelsNeeded
+		.map(x => x.join(':'))
+		.filter((x, i, l) => x && l.indexOf(x) == i)
+		.forEach(m => {
+			// how to check existance of 'minecraft:' models? skip for now
+			if (m.split(':')[0] == 'minecraft') {
+				return;
+			}
 			error(`Model ${m} is required and not found`);
 			ok = false;
-		}
-	});
+		});
 
-	texturesNeeded.map(x => x.join(':')).filter((x, i, l) => x && l.indexOf(x) == i).forEach(t => {
-		// how to check existance of 'minecraft:' textures?
-		if (t.split(':')[0] != 'minecraft') {
+	texturesNeeded
+		.map(x => x.join(':'))
+		.filter((x, i, l) => x && l.indexOf(x) == i)
+		.forEach(t => {
+			// how to check existance of 'minecraft:' textures? skip for now
+			if (t.split(':')[0] == 'minecraft') {
+				return;
+			}
 			error(`Texture ${t} is required and not found`);
 			ok = false;
-		}
-	});
+		});
 
 	unneededModels.forEach(m => {
-		ok = false;
 		warn(`Model ${m} is not required by any blockstate or model`);
+		ok = false;
 	});
 
 	unneededTextures.forEach(t => {
-		ok = false;
 		warn(`Texture ${t} is not required by any model`);
+		ok = false;
 	});
 
 	if (ok) {
@@ -168,4 +182,3 @@ walk(assets, (err, res) => {
 });
 
 // vim: set ts=4 sw=4 tw=0 noet :
-
