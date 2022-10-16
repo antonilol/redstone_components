@@ -4,5 +4,6 @@
 	"block.redstone_components.configurable_redstone_block": "Configurable Redstone Block",
 	"block.redstone_components.mega_tnt": "Mega TNT",
 	"block.redstone_components.curved_repeater": "Curved Repeater",
+	"block.redstone_components.real_time_clock": "Real Time Clock",
 	"entity.redstone_components.mega_tnt": "Mega TNT"
 }

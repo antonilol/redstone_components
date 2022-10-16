@@ -19,6 +19,7 @@ New blocks added by this mod:
 - Configurable Redstone Block
 - Curved Repeater
 - Mega TNT
+- Real Time Clock (subject to change)
 - Probable more in the future...
 
 ## Compiling

@@ -80,6 +80,12 @@ public class Main implements ModInitializer {
 
 	public static BlockEntityType<SmallMemoryCellBlockEntity> SMALL_MEMORY_CELL_BLOCK_ENTITY;
 
+	public static final RealTimeClock REAL_TIME_CLOCK = new RealTimeClock(
+		FabricBlockSettings.of(Material.DECORATION)
+		.breakInstantly()
+		.sounds(BlockSoundGroup.WOOD)
+	);
+
 
 	public static final String MOD_ID = "redstone_components";
 
@@ -140,6 +146,13 @@ public class Main implements ModInitializer {
 		Registry.register(
 			Registry.ITEM, new Identifier(MOD_ID, CurvedRepeaterBlock.NAME),
 			new BlockItem(CURVED_REPEATER_BLOCK, new FabricItemSettings().group(ItemGroup.REDSTONE))
+		);
+
+		// real time clock
+		Registry.register(Registry.BLOCK, new Identifier(MOD_ID, RealTimeClock.NAME), REAL_TIME_CLOCK);
+		Registry.register(
+			Registry.ITEM, new Identifier(MOD_ID, RealTimeClock.NAME),
+			new BlockItem(REAL_TIME_CLOCK, new FabricItemSettings().group(ItemGroup.REDSTONE))
 		);
 	}
 }

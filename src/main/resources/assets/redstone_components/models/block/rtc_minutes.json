@@ -1,0 +1,7 @@
+{
+	"parent": "redstone_components:block/rtc",
+	"ambientocclusion": false,
+	"textures": {
+		"rtc": "redstone_components:block/rtc_minutes"
+	}
+}

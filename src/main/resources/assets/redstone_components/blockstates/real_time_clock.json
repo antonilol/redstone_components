@@ -1,0 +1,94 @@
+{
+	"variants": {
+		"facing=east,mode=seconds": {
+			"y": 270,
+			"model": "redstone_components:block/rtc_seconds"
+		},
+		"facing=east,mode=minutes": {
+			"y": 270,
+			"model": "redstone_components:block/rtc_minutes"
+		},
+		"facing=east,mode=hours": {
+			"y": 270,
+			"model": "redstone_components:block/rtc_hours"
+		},
+		"facing=east,mode=days": {
+			"y": 270,
+			"model": "redstone_components:block/rtc_days"
+		},
+		"facing=east,mode=months": {
+			"y": 270,
+			"model": "redstone_components:block/rtc_months"
+		},
+		"facing=east,mode=years": {
+			"y": 270,
+			"model": "redstone_components:block/rtc_years"
+		},
+		"facing=north,mode=seconds": {
+			"y": 180,
+			"model": "redstone_components:block/rtc_seconds"
+		},
+		"facing=north,mode=minutes": {
+			"y": 180,
+			"model": "redstone_components:block/rtc_minutes"
+		},
+		"facing=north,mode=hours": {
+			"y": 180,
+			"model": "redstone_components:block/rtc_hours"
+		},
+		"facing=north,mode=days": {
+			"y": 180,
+			"model": "redstone_components:block/rtc_days"
+		},
+		"facing=north,mode=months": {
+			"y": 180,
+			"model": "redstone_components:block/rtc_months"
+		},
+		"facing=north,mode=years": {
+			"y": 180,
+			"model": "redstone_components:block/rtc_years"
+		},
+		"facing=south,mode=seconds": {
+			"model": "redstone_components:block/rtc_seconds"
+		},
+		"facing=south,mode=minutes": {
+			"model": "redstone_components:block/rtc_minutes"
+		},
+		"facing=south,mode=hours": {
+			"model": "redstone_components:block/rtc_hours"
+		},
+		"facing=south,mode=days": {
+			"model": "redstone_components:block/rtc_days"
+		},
+		"facing=south,mode=months": {
+			"model": "redstone_components:block/rtc_months"
+		},
+		"facing=south,mode=years": {
+			"model": "redstone_components:block/rtc_years"
+		},
+		"facing=west,mode=seconds": {
+			"y": 90,
+			"model": "redstone_components:block/rtc_seconds"
+		},
+		"facing=west,mode=minutes": {
+			"y": 90,
+			"model": "redstone_components:block/rtc_minutes"
+		},
+		"facing=west,mode=hours": {
+			"y": 90,
+			"model": "redstone_components:block/rtc_hours"
+		},
+		"facing=west,mode=days": {
+			"y": 90,
+			"model": "redstone_components:block/rtc_days"
+		},
+		"facing=west,mode=months": {
+			"y": 90,
+			"model": "redstone_components:block/rtc_months"
+		},
+		"facing=west,mode=years": {
+			"y": 90,
+			"model": "redstone_components:block/rtc_years"
+		}
+	}
+}
