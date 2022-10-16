@@ -25,8 +25,8 @@ jobs:
           java-version: ${{ matrix.java }}
       - name: build
         run: ./gradlew --no-daemon build
-      - name: check assets
+      - name: run checks
         if: ${{ runner.os == 'Linux' }}
-        run: utils/checkAssets.js
+        run: ./checkAndFix clean
 
 #  vim: set ts=2 sw=2 tw=0 et :

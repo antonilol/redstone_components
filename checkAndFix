@@ -2,7 +2,18 @@
 
 ls -F utils | grep '*$' | sed 's/.$//' | while read u
 do
-	utils/"$u";
-done
+	echo "Running utils/$u"
+	if ! utils/"$u"; then
+		echo 'Check failed'
+		exit 1
+	fi
+done || exit 1
+
+if [ "$1" == "clean" ] && [ -n "$(git diff)" ]; then
+	echo 'Please auto-format your code with the "checkAndFix" script'
+	echo 'The following files did not pass the check:'
+	git status -s | sed 's/^...//'
+	exit 1
+fi
 
 # vim: set ts=4 sw=4 tw=0 noet :

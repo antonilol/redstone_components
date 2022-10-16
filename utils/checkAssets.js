@@ -89,14 +89,26 @@ walk(assets, (err, res) => {
 	let modelsNeeded = [];
 
 	files.blockstates.forEach(b => {
-		const c = JSON.parse(fs.readFileSync(b.path).toString('utf-8'));
+		let c;
+		try {
+			c = JSON.parse(fs.readFileSync(b.path).toString('utf-8'));
+		} catch (e) {
+			console.error(`Error while parsing ${b.path}:`, e);
+			process.exit(1);
+		}
 		modelsNeeded.push(...Object.values(c.variants).map(parseModel.bind(null, b.path)));
 	});
 
 	let texturesNeeded = [];
 
 	files.models.forEach(m => {
-		const c = JSON.parse(fs.readFileSync(m.path).toString('utf-8'));
+		let c;
+		try {
+			c = JSON.parse(fs.readFileSync(m.path).toString('utf-8'));
+		} catch (e) {
+			console.error(`Error while parsing ${m.path}:`, e);
+			process.exit(1);
+		}
 		if (c.parent) {
 			modelsNeeded.push(parseModel(m, c.parent));
 		}

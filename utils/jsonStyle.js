@@ -102,7 +102,13 @@ walk('src', (err, res) => {
 	const json = res.filter(f => f.endsWith('.json'));
 
 	json.forEach(file => {
-		const oldJSON = JSON.parse(fs.readFileSync(file).toString('utf-8'));
+		let oldJSON;
+		try {
+			oldJSON = JSON.parse(fs.readFileSync(file).toString('utf-8'));
+		} catch (e) {
+			console.error(`Error while parsing ${file}:`, e);
+			process.exit(1);
+		}
 		let newJSON;
 		if (Array.isArray(oldJSON.elements)) {
 			newJSON = stringifyModel(oldJSON);
