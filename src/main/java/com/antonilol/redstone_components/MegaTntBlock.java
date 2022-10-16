@@ -29,23 +29,24 @@ import org.jetbrains.annotations.Nullable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.DispenserBlock;
 import net.minecraft.block.TntBlock;
+import net.minecraft.block.dispenser.ItemDispenserBehavior;
 import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager.Builder;
 import net.minecraft.state.property.IntProperty;
+import net.minecraft.util.math.BlockPointer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Direction.Axis;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldEvents;
-import net.minecraft.world.event.GameEvent;
 import net.minecraft.world.explosion.Explosion;
 
 public class MegaTntBlock extends TntBlock {
@@ -271,23 +272,25 @@ public class MegaTntBlock extends TntBlock {
 			origin = pos;
 		}
 
-		Vec3d spawnPos = Vec3d.of(origin.add(1, 0, 1));
-
-		MegaTntEntity tnt = new MegaTntEntity(world, igniter);
-		tnt.setPosition(spawnPos);
-		tnt.prevX = spawnPos.getX();
-		tnt.prevY = spawnPos.getY();
-		tnt.prevZ = spawnPos.getZ();
-		tnt.setFuse(MegaTntEntity.DEFAULT_FUSE);
-		double angle = world.random.nextDouble() * Math.PI * 2;
-		tnt.setVelocity(Math.cos(angle) * 0.02, 0.2, Math.sin(angle) * 0.02);
-		world.spawnEntity(tnt);
-
 		breakMegaTnt(world, origin, null);
 
-		world.playSound(null, tnt.getX(), tnt.getY(), tnt.getZ(), SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0F, 1.0F);
-		world.emitGameEvent(igniter, GameEvent.PRIME_FUSE, pos);
+		MegaTntEntity tnt = new MegaTntEntity(world, Vec3d.of(origin.add(1, 0, 1)), igniter);
+
+		tnt.ignite();
 
 		return tnt;
+	}
+
+	public static class DispenserBehavior extends ItemDispenserBehavior {
+
+		@Override
+		protected ItemStack dispenseSilently(BlockPointer pointer, ItemStack stack) {
+			Vec3d pos = Vec3d.of(pointer.getPos())
+				.add(Vec3d.of(Vec3i.ZERO.offset(pointer.getBlockState().get(DispenserBlock.FACING))).multiply(1.5d))
+				.add(0.5d, -0.5d, 0.5d);
+			new MegaTntEntity(pointer.getWorld(), pos, null).ignite();
+			stack.decrement(1);
+			return stack;
+		}
 	}
 }

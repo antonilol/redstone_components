@@ -27,7 +27,11 @@ import org.jetbrains.annotations.Nullable;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.TntEntity;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraft.world.event.GameEvent;
 import net.minecraft.world.explosion.Explosion.DestructionType;;
 
 public class MegaTntEntity extends TntEntity {
@@ -44,10 +48,24 @@ public class MegaTntEntity extends TntEntity {
 		super(entityType, world);
 	}
 
-	public MegaTntEntity(World world, @Nullable LivingEntity igniter) {
+	public MegaTntEntity(World world, Vec3d pos, @Nullable LivingEntity igniter) {
 		this(Main.MEGA_TNT_ENTITY, world);
 
 		this.igniter = igniter;
+
+		setPosition(pos);
+		prevX = pos.getX();
+		prevY = pos.getY();
+		prevZ = pos.getZ();
+		setFuse(MegaTntEntity.DEFAULT_FUSE);
+		double angle = world.random.nextDouble() * Math.PI * 2;
+		setVelocity(Math.cos(angle) * 0.02, 0.2, Math.sin(angle) * 0.02);
+	}
+
+	public void ignite() {
+		world.spawnEntity(this);
+		world.playSound(null, getX(), getY(), getZ(), SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.BLOCKS, 1.0f, 1.0f);
+		world.emitGameEvent(null, GameEvent.ENTITY_PLACE, getPos());
 	}
 
 	@Override
