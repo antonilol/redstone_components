@@ -24,6 +24,12 @@ package com.antonilol.redstone_components;
 
 import org.jetbrains.annotations.Nullable;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.render.entity.EntityRendererFactory;
+import net.minecraft.client.render.entity.TntEntityRenderer;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.TntEntity;
@@ -89,6 +95,22 @@ public class MegaTntEntity extends TntEntity {
 			if (!world.isClient) {
 				world.createExplosion(this, getX(), getY(), getZ(), 40, DestructionType.BREAK);
 			}
+		}
+	}
+
+	@Environment(EnvType.CLIENT)
+	public static class Renderer extends TntEntityRenderer {
+
+		public Renderer(EntityRendererFactory.Context context) {
+			super(context);
+		}
+
+		@Override
+		public void render(TntEntity entity, float yaw, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
+			matrices.push();
+			matrices.scale(2, 2, 2);
+			super.render(entity, yaw, tickDelta, matrices, vertexConsumers, light);
+			matrices.pop();
 		}
 	}
 }

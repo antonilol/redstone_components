@@ -32,8 +32,6 @@ public class MainClient implements ClientModInitializer {
 
 	@Override
 	public void onInitializeClient() {
-        EntityRendererRegistry.register(Main.MEGA_TNT_ENTITY, (context) -> {
-            return new MegaTntEntityRenderer(context);
-        });
+        EntityRendererRegistry.register(Main.MEGA_TNT_ENTITY, MegaTntEntity.Renderer::new);
  	}
 }
