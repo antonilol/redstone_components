@@ -25,6 +25,7 @@ package com.antonilol.redstone_components;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.client.rendering.v1.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 
 @Environment(EnvType.CLIENT)
@@ -33,5 +34,9 @@ public class MainClient implements ClientModInitializer {
 	@Override
 	public void onInitializeClient() {
 		EntityRendererRegistry.register(Main.MEGA_TNT_ENTITY, MegaTntEntity.Renderer::new);
+
+		BlockEntityRendererRegistry.register(Main.MEMORY_CELL_BLOCK_ENTITY, MemoryCellBlockEntity.Renderer::new);
+		BlockEntityRendererRegistry.register(Main.SMALL_MEMORY_CELL_BLOCK_ENTITY,
+			SmallMemoryCellBlockEntity.Renderer::new);
 	}
 }

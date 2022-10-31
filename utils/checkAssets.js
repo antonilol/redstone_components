@@ -150,6 +150,9 @@ walk(assets, (err, res) => {
 		}
 	});
 
+	// workaround for now. it is used directly from java code, not from any model
+	delete unneededTextures[unneededTextures.indexOf('block/memory_cell_glow.png')];
+
 	let ok = true;
 
 	modelsNeeded
