@@ -53,12 +53,12 @@ public class CurvedRepeaterBlock extends RepeaterBlock {
 
 		@Override
 		public String asString() {
-			return this.name;
+			return name;
 		}
 
 		@Override
 		public String toString() {
-			return this.name;
+			return name;
 		}
 	}
 
@@ -71,8 +71,7 @@ public class CurvedRepeaterBlock extends RepeaterBlock {
 
 		setDefaultState(
 			getDefaultState()
-			.with(OUTPUT, Output.RIGHT)
-		);
+				.with(OUTPUT, Output.RIGHT));
 	}
 
 	@Override
@@ -103,15 +102,13 @@ public class CurvedRepeaterBlock extends RepeaterBlock {
 
 		return state.with(
 			OUTPUT,
-			state.get(FACING).rotateYClockwise() ==
-			dirs[dirs[2].getAxis() == Axis.Y ? 1 : 2] ?
-				Output.LEFT :
-				Output.RIGHT
-		);
+			state.get(FACING).rotateYClockwise() == dirs[dirs[2].getAxis() == Axis.Y ? 1 : 2] ? Output.LEFT
+				: Output.RIGHT);
 	}
 
 	@Override
-	public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
+	public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState,
+		WorldAccess world, BlockPos pos, BlockPos neighborPos) {
 		return state.with(LOCKED, isLocked(world, pos, state));
 	}
 

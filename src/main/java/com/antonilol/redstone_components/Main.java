@@ -45,47 +45,40 @@ public class Main implements ModInitializer {
 
 	public static final ConfigurableRedstoneBlock CONFIGURABLE_REDSTONE_BLOCK = new ConfigurableRedstoneBlock(
 		FabricBlockSettings.of(Material.METAL, MapColor.BRIGHT_RED)
-		.requiresTool()
-		.strength(5.0F, 6.0F)
-		.sounds(BlockSoundGroup.METAL)
-	);
+			.requiresTool()
+			.strength(5.0F, 6.0F)
+			.sounds(BlockSoundGroup.METAL));
 
 	public static final CurvedRepeaterBlock CURVED_REPEATER_BLOCK = new CurvedRepeaterBlock(
 		FabricBlockSettings.of(Material.DECORATION)
-		.breakInstantly()
-		.sounds(BlockSoundGroup.WOOD)
-	);
+			.breakInstantly()
+			.sounds(BlockSoundGroup.WOOD));
 
 	public static final MegaTntBlock MEGA_TNT_BLOCK = new MegaTntBlock(
 		FabricBlockSettings.of(Material.TNT)
-		.breakInstantly()
-		.sounds(BlockSoundGroup.GRASS)
-	);
+			.breakInstantly()
+			.sounds(BlockSoundGroup.GRASS));
 
 	public static EntityType<MegaTntEntity> MEGA_TNT_ENTITY;
 
 	public static final MemoryCellBlock MEMORY_CELL_BLOCK = new MemoryCellBlock(
 		FabricBlockSettings.of(Material.DECORATION)
-		.breakInstantly()
-		.sounds(BlockSoundGroup.WOOD)
-	);
+			.breakInstantly()
+			.sounds(BlockSoundGroup.WOOD));
 
 	public static BlockEntityType<MemoryCellBlockEntity> MEMORY_CELL_BLOCK_ENTITY;
 
 	public static final SmallMemoryCellBlock SMALL_MEMORY_CELL_BLOCK = new SmallMemoryCellBlock(
 		FabricBlockSettings.of(Material.DECORATION)
-		.breakInstantly()
-		.sounds(BlockSoundGroup.WOOD)
-	);
+			.breakInstantly()
+			.sounds(BlockSoundGroup.WOOD));
 
 	public static BlockEntityType<SmallMemoryCellBlockEntity> SMALL_MEMORY_CELL_BLOCK_ENTITY;
 
 	public static final RealTimeClock REAL_TIME_CLOCK = new RealTimeClock(
 		FabricBlockSettings.of(Material.DECORATION)
-		.breakInstantly()
-		.sounds(BlockSoundGroup.WOOD)
-	);
-
+			.breakInstantly()
+			.sounds(BlockSoundGroup.WOOD));
 
 	public static final String MOD_ID = "redstone_components";
 
@@ -99,60 +92,55 @@ public class Main implements ModInitializer {
 		Registry.register(Registry.BLOCK, new Identifier(MOD_ID, MemoryCellBlock.NAME), MEMORY_CELL_BLOCK);
 		Registry.register(
 			Registry.ITEM, new Identifier(MOD_ID, MemoryCellBlock.NAME),
-			new BlockItem(MEMORY_CELL_BLOCK, new FabricItemSettings().group(ItemGroup.REDSTONE))
-		);
+			new BlockItem(MEMORY_CELL_BLOCK, new FabricItemSettings().group(ItemGroup.REDSTONE)));
 		MEMORY_CELL_BLOCK_ENTITY = Registry.register(
 			Registry.BLOCK_ENTITY_TYPE, new Identifier(MOD_ID, MemoryCellBlock.NAME),
-			FabricBlockEntityTypeBuilder.create(MemoryCellBlockEntity::new, MEMORY_CELL_BLOCK).build()
-		);
+			FabricBlockEntityTypeBuilder.create(MemoryCellBlockEntity::new, MEMORY_CELL_BLOCK).build());
 
 		// small memory cell
 		Registry.register(Registry.BLOCK, new Identifier(MOD_ID, SmallMemoryCellBlock.NAME), SMALL_MEMORY_CELL_BLOCK);
 		Registry.register(
 			Registry.ITEM, new Identifier(MOD_ID, SmallMemoryCellBlock.NAME),
-			new BlockItem(SMALL_MEMORY_CELL_BLOCK, new FabricItemSettings().group(ItemGroup.REDSTONE))
-		);
+			new BlockItem(SMALL_MEMORY_CELL_BLOCK, new FabricItemSettings().group(ItemGroup.REDSTONE)));
 		SMALL_MEMORY_CELL_BLOCK_ENTITY = Registry.register(
 			Registry.BLOCK_ENTITY_TYPE, new Identifier(MOD_ID, SmallMemoryCellBlock.NAME),
-			FabricBlockEntityTypeBuilder.create(SmallMemoryCellBlockEntity::new, SMALL_MEMORY_CELL_BLOCK).build()
-		);
+			FabricBlockEntityTypeBuilder.create(SmallMemoryCellBlockEntity::new, SMALL_MEMORY_CELL_BLOCK).build());
 
 		// configurable redstone block
-		Registry.register(Registry.BLOCK, new Identifier(MOD_ID, ConfigurableRedstoneBlock.NAME), CONFIGURABLE_REDSTONE_BLOCK);
+		Registry.register(Registry.BLOCK, new Identifier(MOD_ID, ConfigurableRedstoneBlock.NAME),
+			CONFIGURABLE_REDSTONE_BLOCK);
 		Registry.register(
 			Registry.ITEM, new Identifier(MOD_ID, ConfigurableRedstoneBlock.NAME),
-			new BlockItem(CONFIGURABLE_REDSTONE_BLOCK, new FabricItemSettings().group(ItemGroup.REDSTONE))
-		);
+			new BlockItem(CONFIGURABLE_REDSTONE_BLOCK, new FabricItemSettings().group(ItemGroup.REDSTONE)));
 
 		// mega tnt
 		Registry.register(Registry.BLOCK, new Identifier(MOD_ID, MegaTntBlock.NAME), MEGA_TNT_BLOCK);
 		Registry.register(
 			Registry.ITEM, new Identifier(MOD_ID, MegaTntBlock.NAME),
-			new BlockItem(MEGA_TNT_BLOCK, new FabricItemSettings().group(ItemGroup.REDSTONE))
-		);
+			new BlockItem(MEGA_TNT_BLOCK, new FabricItemSettings().group(ItemGroup.REDSTONE)));
 		MEGA_TNT_ENTITY = Registry.register(
 			Registry.ENTITY_TYPE, new Identifier(MOD_ID, MegaTntBlock.NAME),
-			FabricEntityTypeBuilder.create(SpawnGroup.MISC, MegaTntEntity::create) // ::create is workaround bc MegaTntEntity has 1+ constructors. same problem here -> https://stackoverflow.com/q/45329062
-			.fireImmune()
-			.dimensions(EntityDimensions.fixed(1.98F, 1.98F))
-			.trackRangeBlocks(10)
-			.trackedUpdateRate(10)
-			.build()
-		);
+			// MegaTntEntity::create is a workaround, needed because the compiler doesn't
+			// seem to handle the overloaded constructor very well
+			// related: https://stackoverflow.com/q/45329062
+			FabricEntityTypeBuilder.create(SpawnGroup.MISC, MegaTntEntity::create)
+				.fireImmune()
+				.dimensions(EntityDimensions.fixed(1.98F, 1.98F))
+				.trackRangeBlocks(10)
+				.trackedUpdateRate(10)
+				.build());
 		DispenserBlock.registerBehavior(Main.MEGA_TNT_BLOCK, new MegaTntBlock.DispenserBehavior());
 
 		// curved repeater
 		Registry.register(Registry.BLOCK, new Identifier(MOD_ID, CurvedRepeaterBlock.NAME), CURVED_REPEATER_BLOCK);
 		Registry.register(
 			Registry.ITEM, new Identifier(MOD_ID, CurvedRepeaterBlock.NAME),
-			new BlockItem(CURVED_REPEATER_BLOCK, new FabricItemSettings().group(ItemGroup.REDSTONE))
-		);
+			new BlockItem(CURVED_REPEATER_BLOCK, new FabricItemSettings().group(ItemGroup.REDSTONE)));
 
 		// real time clock
 		Registry.register(Registry.BLOCK, new Identifier(MOD_ID, RealTimeClock.NAME), REAL_TIME_CLOCK);
 		Registry.register(
 			Registry.ITEM, new Identifier(MOD_ID, RealTimeClock.NAME),
-			new BlockItem(REAL_TIME_CLOCK, new FabricItemSettings().group(ItemGroup.REDSTONE))
-		);
+			new BlockItem(REAL_TIME_CLOCK, new FabricItemSettings().group(ItemGroup.REDSTONE)));
 	}
 }

@@ -38,11 +38,7 @@ import net.minecraft.util.math.Direction;
 @Mixin(RedstoneWireBlock.class)
 public class RedstoneWireMixin {
 
-	@Inject(
-		at = @At("HEAD"),
-		method = "Lnet/minecraft/block/RedstoneWireBlock;connectsTo(Lnet/minecraft/block/BlockState;Lnet/minecraft/util/math/Direction;)Z",
-		cancellable = true
-	)
+	@Inject(at = @At("HEAD"), method = "Lnet/minecraft/block/RedstoneWireBlock;connectsTo(Lnet/minecraft/block/BlockState;Lnet/minecraft/util/math/Direction;)Z", cancellable = true)
 	private static void connectsTo(BlockState state, @Nullable Direction dir, CallbackInfoReturnable<Boolean> info) {
 		if (state.isOf(Main.CURVED_REPEATER_BLOCK)) {
 			Direction direction = state.get(CurvedRepeaterBlock.FACING);

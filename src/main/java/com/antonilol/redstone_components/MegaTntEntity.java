@@ -106,7 +106,8 @@ public class MegaTntEntity extends TntEntity {
 		}
 
 		@Override
-		public void render(TntEntity entity, float yaw, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
+		public void render(TntEntity entity, float yaw, float tickDelta, MatrixStack matrices,
+			VertexConsumerProvider vertexConsumers, int light) {
 			matrices.push();
 			matrices.scale(2, 2, 2);
 			super.render(entity, yaw, tickDelta, matrices, vertexConsumers, light);

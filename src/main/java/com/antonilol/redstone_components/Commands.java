@@ -37,38 +37,40 @@ import net.minecraft.text.Text;
 public class Commands implements CommandRegistrationCallback {
 
 	@Override
-	public void register(CommandDispatcher<ServerCommandSource> dispatcher, CommandRegistryAccess registryAccess, RegistrationEnvironment environment) {
+	public void register(CommandDispatcher<ServerCommandSource> dispatcher, CommandRegistryAccess registryAccess,
+		RegistrationEnvironment environment) {
 		LiteralArgumentBuilder<ServerCommandSource> lock =
 
-		literal("lock")
-		.executes(c -> {
-			ConfigurableRedstoneBlock.setLockedLast(true);
-			return Command.SINGLE_SUCCESS;
-		});
+			literal("lock")
+				.executes(c -> {
+					ConfigurableRedstoneBlock.setLockedLast(true);
+					return Command.SINGLE_SUCCESS;
+				});
 
 		LiteralArgumentBuilder<ServerCommandSource> unlock =
 
-		literal("unlock")
-		.executes(c -> {
-			ConfigurableRedstoneBlock.setLockedLast(false);
-			return Command.SINGLE_SUCCESS;
-		});
+			literal("unlock")
+				.executes(c -> {
+					ConfigurableRedstoneBlock.setLockedLast(false);
+					return Command.SINGLE_SUCCESS;
+				});
 
 		LiteralArgumentBuilder<ServerCommandSource> version =
 
-		literal("version")
-		.executes(c -> {
-			c.getSource().sendFeedback(Text.of("redstone_components v" + Main.VERSION + " by Antoni Spaanderman"), false);
-			c.getSource().sendFeedback(Text.of("GitHub: https://github.com/antonilol/redstone_components"), false); // TODO is it possible to add a clickable link here?
-			return Command.SINGLE_SUCCESS;
-		});
+			literal("version")
+				.executes(c -> {
+					c.getSource().sendFeedback(
+						Text.of("redstone_components v" + Main.VERSION + " by Antoni Spaanderman"), false);
+					c.getSource().sendFeedback(Text.of("GitHub: https://github.com/antonilol/redstone_components"),
+						false); // TODO is it possible to add a clickable link here?
+					return Command.SINGLE_SUCCESS;
+				});
 
 		dispatcher.register(
 			literal("redstone_components")
-			.then(lock)
-			.then(unlock)
-			.then(version)
-		);
+				.then(lock)
+				.then(unlock)
+				.then(version));
 
 		dispatcher.register(lock);
 

@@ -60,9 +60,8 @@ public class ConfigurableRedstoneBlock extends RedstoneBlock {
 
 		setDefaultState(
 			stateManager.getDefaultState()
-			.with(LOCKED, true)
-			.with(POWER, 15)
-		);
+				.with(LOCKED, true)
+				.with(POWER, 15));
 	}
 
 	@Override
@@ -76,7 +75,8 @@ public class ConfigurableRedstoneBlock extends RedstoneBlock {
 	}
 
 	@Override
-	public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+	public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
+		BlockHitResult hit) {
 		boolean locked = state.get(LOCKED);
 
 		lastClickPos = pos;

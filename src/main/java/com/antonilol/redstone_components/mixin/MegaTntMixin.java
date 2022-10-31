@@ -38,11 +38,7 @@ import net.minecraft.world.World;
 @Mixin(TntBlock.class)
 public class MegaTntMixin {
 
-	@Inject(
-		at = @At("HEAD"),
-		method = "Lnet/minecraft/block/TntBlock;primeTnt(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/entity/LivingEntity;)V",
-		cancellable = true
-	)
+	@Inject(at = @At("HEAD"), method = "Lnet/minecraft/block/TntBlock;primeTnt(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/entity/LivingEntity;)V", cancellable = true)
 	private static void primeMegaTnt(World world, BlockPos pos, @Nullable LivingEntity igniter, CallbackInfo info) {
 		if (world.getBlockState(pos).isOf(Main.MEGA_TNT_BLOCK)) {
 			if (!world.isClient) {

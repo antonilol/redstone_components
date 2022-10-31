@@ -51,12 +51,12 @@ public class MemoryCellBlock extends AbstractRedstoneGateBlock implements BlockE
 
 		@Override
 		public String asString() {
-			return this.name;
+			return name;
 		}
 
 		@Override
 		public String toString() {
-			return this.name;
+			return name;
 		}
 	}
 
@@ -71,9 +71,8 @@ public class MemoryCellBlock extends AbstractRedstoneGateBlock implements BlockE
 
 		setDefaultState(
 			stateManager.getDefaultState()
-			.with(FACING, Direction.NORTH)
-			.with(MODE, Mode.READ)
-		);
+				.with(FACING, Direction.NORTH)
+				.with(MODE, Mode.READ));
 	}
 
 	@Override
@@ -91,7 +90,7 @@ public class MemoryCellBlock extends AbstractRedstoneGateBlock implements BlockE
 	}
 
 	protected int getByteAddress(World world, BlockPos pos, BlockState state) {
-		return (getLeftPower(world, pos, state) << 4) | getRightPower(world, pos, state);
+		return getLeftPower(world, pos, state) << 4 | getRightPower(world, pos, state);
 	}
 
 	protected int getLeftPower(World world, BlockPos pos, BlockState state) {
@@ -111,8 +110,7 @@ public class MemoryCellBlock extends AbstractRedstoneGateBlock implements BlockE
 		if (!(be instanceof MemoryCellBlockEntity)) {
 			return 0;
 		}
-		final int d = ((MemoryCellBlockEntity) be).read(address);
-		return d;
+		return ((MemoryCellBlockEntity) be).read(address);
 	}
 
 	protected int getRightPower(World world, BlockPos pos, BlockState state) {

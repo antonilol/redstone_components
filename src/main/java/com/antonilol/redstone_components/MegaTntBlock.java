@@ -65,10 +65,9 @@ public class MegaTntBlock extends TntBlock {
 	}
 
 	private static int getRelIntPos(BlockState state) {
-		return
-			 state.get(REL_X) |
-			(state.get(REL_Y) << 1) |
-			(state.get(REL_Z) << 2);
+		return state.get(REL_X) |
+			state.get(REL_Y) << 1 |
+			state.get(REL_Z) << 2;
 	}
 
 	public static final String NAME = "mega_tnt";
@@ -78,10 +77,9 @@ public class MegaTntBlock extends TntBlock {
 
 		setDefaultState(
 			getDefaultState()
-			.with(REL_X, 0)
-			.with(REL_Y, 0)
-			.with(REL_Z, 0)
-		);
+				.with(REL_X, 0)
+				.with(REL_Y, 0)
+				.with(REL_Z, 0));
 	}
 
 	@Override
@@ -92,7 +90,7 @@ public class MegaTntBlock extends TntBlock {
 
 	private void breakMegaTnt(World world, BlockPos origin, @Nullable PlayerEntity player) {
 		for (int i = 0; i < 8; i++) {
-			int x =  i & 0b001;
+			int x = i & 0b001;
 			int y = (i & 0b010) >> 1;
 			int z = (i & 0b100) >> 2;
 
@@ -122,7 +120,8 @@ public class MegaTntBlock extends TntBlock {
 
 	@Override
 	public @Nullable BlockState getPlacementState(ItemPlacementContext ctx) {
-		@Nullable BlockState state;
+		@Nullable
+		BlockState state;
 
 		for (int i = 0; i < 8; i++) {
 			state = getPlacementState(ctx, i);
@@ -166,16 +165,16 @@ public class MegaTntBlock extends TntBlock {
 		World world = ctx.getWorld();
 
 		for (int i = 1; i < 8; i++) {
-			int x =  i & 0b001;
+			int x = i & 0b001;
 			int y = (i & 0b010) >> 1;
 			int z = (i & 0b100) >> 2;
 
 			if (!world.getBlockState(
-					pos
-						.offset(dirX, x)
-						.offset(dirY, y)
-						.offset(dirZ, z)
-				).canReplace(ctx)) {
+				pos
+					.offset(dirX, x)
+					.offset(dirY, y)
+					.offset(dirZ, z))
+				.canReplace(ctx)) {
 				return null;
 			}
 		}
@@ -206,7 +205,8 @@ public class MegaTntBlock extends TntBlock {
 	private HashMap<BlockPos, Boolean> primed = new HashMap<BlockPos, Boolean>();
 
 	@Override
-	public void onPlaced(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack itemStack) {
+	public void onPlaced(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer,
+		ItemStack itemStack) {
 		super.onPlaced(world, pos, state, placer, itemStack);
 
 		BlockPos origin = getOrigin(pos, state);
@@ -218,7 +218,7 @@ public class MegaTntBlock extends TntBlock {
 				continue;
 			}
 
-			int x =  i & 0b001;
+			int x = i & 0b001;
 			int y = (i & 0b010) >> 1;
 			int z = (i & 0b100) >> 2;
 
@@ -230,10 +230,9 @@ public class MegaTntBlock extends TntBlock {
 			world.setBlockState(
 				offset,
 				state
-				.with(REL_X, x)
-				.with(REL_Y, y)
-				.with(REL_Z, z)
-			);
+					.with(REL_X, x)
+					.with(REL_Y, y)
+					.with(REL_Z, z));
 		}
 
 		if (primed.get(origin)) {
@@ -247,7 +246,8 @@ public class MegaTntBlock extends TntBlock {
 		return primeMegaTnt(world, pos, igniter, false);
 	}
 
-	private @Nullable MegaTntEntity primeMegaTnt(World world, BlockPos pos, @Nullable LivingEntity igniter, boolean force) {
+	private @Nullable MegaTntEntity primeMegaTnt(World world, BlockPos pos, @Nullable LivingEntity igniter,
+		boolean force) {
 		BlockPos origin;
 
 		if (!force) {

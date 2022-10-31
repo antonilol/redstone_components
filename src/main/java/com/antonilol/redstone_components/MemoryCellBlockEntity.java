@@ -34,7 +34,8 @@ public class MemoryCellBlockEntity extends BlockEntity {
 
 	private byte[] memory;
 
-	protected MemoryCellBlockEntity(BlockEntityType<? extends MemoryCellBlockEntity> type, BlockPos pos, BlockState state, int memorySize) {
+	protected MemoryCellBlockEntity(BlockEntityType<? extends MemoryCellBlockEntity> type, BlockPos pos,
+		BlockState state, int memorySize) {
 		super(type, pos, state);
 
 		memory = new byte[memorySize];
@@ -73,9 +74,9 @@ public class MemoryCellBlockEntity extends BlockEntity {
 		final int index = (address & 0xff) >> 1;
 		final byte b = memory[index];
 		if ((address & 1) == 0) {
-			memory[index] = (byte) ((b & 0x0f) | (value << 4));
+			memory[index] = (byte) (b & 0x0f | value << 4);
 		} else {
-			memory[index] = (byte) ((b & 0xf0) |  value      );
+			memory[index] = (byte) (b & 0xf0 | value);
 		}
 
 		markDirty();

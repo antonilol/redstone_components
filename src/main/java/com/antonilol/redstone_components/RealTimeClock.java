@@ -61,12 +61,12 @@ public class RealTimeClock extends AbstractRedstoneGateBlock {
 
 		@Override
 		public String asString() {
-			return this.name;
+			return name;
 		}
 
 		@Override
 		public String toString() {
-			return this.name;
+			return name;
 		}
 	}
 
@@ -81,9 +81,8 @@ public class RealTimeClock extends AbstractRedstoneGateBlock {
 
 		setDefaultState(
 			stateManager.getDefaultState()
-			.with(FACING, Direction.NORTH)
-			.with(MODE, Mode.SECONDS)
-		);
+				.with(FACING, Direction.NORTH)
+				.with(MODE, Mode.SECONDS));
 	}
 
 	@Override
@@ -116,7 +115,7 @@ public class RealTimeClock extends AbstractRedstoneGateBlock {
 	}
 
 	protected int getSidePowerLevel(BlockView world, BlockPos pos, BlockState state) {
-		return (getTime(state) >> 4) & 0xf;
+		return getTime(state) >> 4 & 0xf;
 	}
 
 	@Override
@@ -160,7 +159,8 @@ public class RealTimeClock extends AbstractRedstoneGateBlock {
 	}
 
 	@Override
-	public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+	public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
+		BlockHitResult hit) {
 		if (player.getAbilities().allowModifyWorld) {
 			world.setBlockState(pos, state.cycle(MODE));
 			return ActionResult.success(world.isClient);
