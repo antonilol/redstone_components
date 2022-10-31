@@ -22,5 +22,5 @@ jobs:
       uses: svenstaro/upload-release-action@v2
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
-        file: build/libs/redstone_components-${{ env.mod_version }}+${ env.minecraft_version }}.jar
+        file: build/libs/redstone_components-${{ env.mod_version }}+${{ env.minecraft_version }}.jar
         tag: ${{ github.ref }}
