@@ -16,12 +16,11 @@ jobs:
         java-version: 17
     - name: build
       run: |
-        ./gradlew build
-        ver=$(cat gradle.properties | grep mod_version | sed 's/.*= //')
-        echo "ver=$ver" >> $GITHUB_ENV
+        ./gradlew --no-daemon build
+        cat gradle.properties | sed -E 's/ |\t//g;/^($|#)/d;1d' >> $GITHUB_ENV
     - name: upload jar file
       uses: svenstaro/upload-release-action@v2
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
-        file: build/libs/redstone_components-${{ env.ver }}.jar
+        file: build/libs/redstone_components-${{ env.mod_version }}+${ env.minecraft_version }}.jar
         tag: ${{ github.ref }}

@@ -1,14 +1,11 @@
 plugins {
 	id 'fabric-loom' version '1.0-SNAPSHOT'
-	id 'maven-publish'
 }
 
 sourceCompatibility = JavaVersion.VERSION_17
 targetCompatibility = JavaVersion.VERSION_17
 
-archivesBaseName = project.archives_base_name
-version = project.mod_version
-group = project.maven_group
+archivesBaseName = "${project.archives_base_name}-${project.mod_version}+${project.minecraft_version}"
 
 dependencies {
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
@@ -18,24 +15,27 @@ dependencies {
 }
 
 processResources {
-	inputs.property "version", project.version
+	HashMap p = new HashMap()
+	p.put("version", project.mod_version)
+	p.put("java_version", sourceCompatibility)
+	p.put("loader_version", project.loader_version)
+	p.put("fabric_version", project.fabric_version)
+	p.put("minecraft_version", project.minecraft_version)
+
+	p.forEach((k, v) -> inputs.property(k, v))
 
 	filesMatching("fabric.mod.json") {
-		expand "version": project.version
+		expand p
 	}
 }
 
 tasks.withType(JavaCompile).configureEach {
 	it.options.encoding = "UTF-8"
 	it.options.release = 17
-
-	it.options.deprecation = true
 }
 
 jar {
 	from("LICENSE") {
-		rename { "${it}_${project.archivesBaseName}"}
+		rename { "${it}_${project.archives_base_name}"}
 	}
 }
-
-// vim: set ts=4 sw=4 tw=0 noet :

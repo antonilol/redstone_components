@@ -26,5 +26,3 @@ const walk = function (dir, done) {
 };
 
 module.exports = { walk };
-
-// vim: set ts=4 sw=4 tw=0 noet :

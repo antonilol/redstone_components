@@ -15,5 +15,3 @@ if [ "$1" == "clean" ] && [ -n "$(git diff)" ]; then
 	git status -s | sed 's/^...//'
 	exit 1
 fi
-
-# vim: set ts=4 sw=4 tw=0 noet :
